@@ -13,3 +13,6 @@ function initFirebaseAuth() {
     // Listen to auth state changes.
     firebase.auth().onAuthStateChanged(authStateObserver);
 }
+
+var signInButtonElement = document.getElementById('sign-in');
+signInButtonElement.addEventListener('click', signIn);
