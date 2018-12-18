@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>
+    Hello, we know you don't want to log in, but please, join us!
+  </title>
+
+
+<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDmFYJvxZ7-wEadpfXFIvySBzZH_oPEUZo",
+    authDomain: "czatu-czatu.firebaseapp.com",
+    databaseURL: "https://czatu-czatu.firebaseio.com",
+    projectId: "czatu-czatu",
+    storageBucket: "czatu-czatu.appspot.com",
+    messagingSenderId: "131317783838"
+  };
+  firebase.initializeApp(config);
+</script>
+</head>
+<body>
+  <div id="user-container">
+    </button>
+    <button id="sign-in" class="sign-in">
+      <i class="material-icons"></i>Sign-in with Google
+    </button>
+  </div>
+
+  <script src="js/loginScripts.js"></script>
+</body>
+</html>

@@ -12,6 +12,7 @@ function signOut() {
 function initFirebaseAuth() {
     // Listen to auth state changes.
     firebase.auth().onAuthStateChanged(authStateObserver);
+    window.location = '/mainChatPage.html';
 }
 
 var signInButtonElement = document.getElementById('sign-in');
