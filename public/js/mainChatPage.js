@@ -11,7 +11,7 @@ function signOut() {
 }
 
 function getProfilePicUrl() {
-  return firebase.auth().currentUser.photoURL || '/img/iconfinder_male3_403019.png';
+  return firebase.auth().currentUser.photoURL || '/img/ping-pong.png';
 }
 
 function getUserName() {
@@ -30,13 +30,16 @@ function loadMessages(chatName, limit) {
   firebase.database().ref(`/messages/${chatName}`).limitToLast(limit).on('child_changed', callback);
 }
 
-function loadChats() {
+function loadChatRooms() {
     let callback = function(snap) {
         let data = snap.val();
         if (!data.isPrivate){
-            displayChat(snap.key);
+            displayChatRoom(snap.key, data.members.length);
         }
-    }
+    };
+    
+    firebase.database().ref(`/chats/`).on('child_added', callback);
+    firebase.database().ref(`/chats/`).on('child_changed', callback);
 }
 
 var MESSAGE_TEMPLATE =
@@ -47,8 +50,22 @@ var MESSAGE_TEMPLATE =
     '</div>';
 
 let CHAT_LI_TEMPLATE = 
-    '<div class="group-chat"></div>';
+    '<div class="group-chat">' +
+      '<span class="group-description">' +
+        '<span class="group-name">R.O.H.A.N.</span>' +
+        '<span class="last-post">Ostatnia wiadomość</span>' +
+      '</span>' +
+    '</div>';
 
+function displayChatRoom(name, usersNumber){
+    let container = document.createElement('div');
+    container.innerHTML = CHAT_LI_TEMPLATE;
+    let div = container.firstChild;
+    chatList.appendChild(div);
+    let chatName = div.querySelector('.group-name');
+    chatName.textContent = name;
+    div.querySelector('.last-post').textContent = `members: ${usersNumber}`;
+}
 
 // Displays a Message in the UI.
 function displayMessage(key, name, text, picUrl, imageUrl) {
@@ -105,8 +122,6 @@ function checkSetup() {
 }
 
 
-
-
 // Initiate Firebase Auth.
 function initFirebaseAuth() {
   // Listen to auth state changes.
@@ -114,12 +129,24 @@ function initFirebaseAuth() {
 }
 
  function authStateObserver(user) {
-     if(!user) {
+     if(user) { 
+         loadUserInfo();
+         loadChatRooms();
+     } else {
          window.location = '/';
      }
  }
 
+function loadUserInfo(){
+    const profilePictureUrl = getProfilePicUrl();
+    document.getElementById('user-photo').style.backgroundImage = 'url(' + profilePictureUrl + ')';
+
+    const userName = getUserName();
+    document.getElementById('user-name').textContent = userName;
+}
+
 var signOutButtonElement = document.getElementById('logout');
+let chatList = document.getElementById('chats');
 //var messageInputElement = document.getElementById('message');
 
 signOutButtonElement.addEventListener('click', signOut);
