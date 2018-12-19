@@ -10,12 +10,10 @@ function signOut() {
     firebase.auth().signOut();
 }
 
-// Returns the signed-in user's profile pic URL.
 function getProfilePicUrl() {
   return firebase.auth().currentUser.photoURL || '/img/iconfinder_male3_403019.png';
 }
 
-// Returns the signed-in user's display name.
 function getUserName() {
   return firebase.auth().currentUser.displayName;
 }
@@ -32,7 +30,6 @@ function loadMessages(chatName, limit) {
   firebase.database().ref(`/messages/${chatName}`).limitToLast(limit).on('child_changed', callback);
 }
 
-// Template for messages.
 var MESSAGE_TEMPLATE =
     '<div class="message-container">' +
       '<div class="spacing"><div class="pic"></div></div>' +
@@ -75,6 +72,28 @@ function displayMessage(key, name, text, picUrl, imageUrl) {
 //  messageInputElement.focus();
 }
 
+// Enables or disables the submit button depending on the values of the input
+// fields.
+function toggleButton() {
+  if (messageInputElement.value) {
+    submitButtonElement.removeAttribute('disabled');
+  } else {
+    submitButtonElement.setAttribute('disabled', 'true');
+  }
+}
+
+// Checks that the Firebase SDK has been correctly setup and configured.
+function checkSetup() {
+  if (!window.firebase || !(firebase.app instanceof Function) || !firebase.app().options) {
+    window.alert('You have not configured and imported the Firebase SDK. ' +
+        'Make sure you go through the codelab setup instructions and make ' +
+        'sure you are running the codelab using `firebase serve`');
+  }
+}
+
+
+
+
 // Initiate Firebase Auth.
 function initFirebaseAuth() {
   // Listen to auth state changes.
@@ -88,6 +107,13 @@ function initFirebaseAuth() {
  }
 
 var signOutButtonElement = document.getElementById('logout');
+var messageInputElement = document.getElementById('message');
+
 signOutButtonElement.addEventListener('click', signOut);
 
+// Toggle for the button.
+messageInputElement.addEventListener('keyup', toggleButton);
+messageInputElement.addEventListener('change', toggleButton);
+
+checkSetup();
 initFirebaseAuth();
