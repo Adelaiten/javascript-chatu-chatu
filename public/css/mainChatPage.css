@@ -1,0 +1,42 @@
+body {
+    margin: 0;
+    padding: 0;
+
+}
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+}
+
+.header {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    width: 100%;
+    background-color: #5478c7;
+}
+
+.header-title {
+    text-transform: uppercase;
+    font-family: "Montserrat", sans-serif;
+    font-weight: bolder;
+    text-shadow: 1px 1px rgba(0,0,0,0.2);
+    font-size: 1.6rem;
+    color: #ffffff;
+}
+
+.sign-out-button {
+    padding: 0;
+    border: 0;
+    background-color: rgba(0,0,0,0);
+    margin-right: 10px;
+
+}
+
+.sign-out-button img {
+    width: 30px;
+}
