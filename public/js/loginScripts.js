@@ -1,4 +1,4 @@
-function signIn() {
+function signInWithGoogle() {
     // Sign into Firebase using popup auth & Google as the identity provider.
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider);
@@ -15,5 +15,5 @@ function initFirebaseAuth() {
     window.location = '/mainChatPage.html';
 }
 
-var signInButtonElement = document.getElementById('sign-in');
-signInButtonElement.addEventListener('click', signIn);
+var signInButtonElement = document.getElementById('login-google');
+signInButtonElement.addEventListener('click', signInWithGoogle);
