@@ -120,13 +120,13 @@ function initFirebaseAuth() {
  }
 
 var signOutButtonElement = document.getElementById('logout');
-var messageInputElement = document.getElementById('message');
+//var messageInputElement = document.getElementById('message');
 
 signOutButtonElement.addEventListener('click', signOut);
 
 // Toggle for the button.
-messageInputElement.addEventListener('keyup', toggleButton);
-messageInputElement.addEventListener('change', toggleButton);
+//messageInputElement.addEventListener('keyup', toggleButton);
+//messageInputElement.addEventListener('change', toggleButton);
 
 checkSetup();
 initFirebaseAuth();
