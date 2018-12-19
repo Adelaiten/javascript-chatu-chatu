@@ -30,12 +30,25 @@ function loadMessages(chatName, limit) {
   firebase.database().ref(`/messages/${chatName}`).limitToLast(limit).on('child_changed', callback);
 }
 
+function loadChats() {
+    let callback = function(snap) {
+        let data = snap.val();
+        if (!data.isPrivate){
+            displayChat(snap.key);
+        }
+    }
+}
+
 var MESSAGE_TEMPLATE =
     '<div class="message-container">' +
       '<div class="spacing"><div class="pic"></div></div>' +
       '<div class="message"></div>' +
       '<div class="name"></div>' +
     '</div>';
+
+let CHAT_LI_TEMPLATE = 
+    '<div class="group-chat"></div>';
+
 
 // Displays a Message in the UI.
 function displayMessage(key, name, text, picUrl, imageUrl) {
