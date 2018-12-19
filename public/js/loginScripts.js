@@ -1,19 +1,26 @@
-function signIn() {
+function signInWithGoogle() {
     // Sign into Firebase using popup auth & Google as the identity provider.
     var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signOut();
     firebase.auth().signInWithPopup(provider);
+
 }
 
-function signOut() {
-    // Sign out of Firebase.
-    firebase.auth().signOut();
+function authStateObserver() {
+    firebase.auth().onAuthStateChanged(function(user) {
+        console.log("dupa");
+        if (user) {
+            window.location = "/mainChatPage.html";
+        }
+    });
 }
 
 function initFirebaseAuth() {
     // Listen to auth state changes.
     firebase.auth().onAuthStateChanged(authStateObserver);
-    window.location = '/mainChatPage.html';
 }
 
-var signInButtonElement = document.getElementById('sign-in');
-signInButtonElement.addEventListener('click', signIn);
+var signInButtonElement = document.getElementById('login-google');
+signInButtonElement.addEventListener('click', signInWithGoogle);
+
+initFirebaseAuth();
