@@ -44,6 +44,7 @@ body {
     font-weight: bold;
     text-align: center;
     color: #ffffff;
+    text-shadow: 1px 1px rgba(0,0,0,0.2);
 }
 
 .sign-out-button {
@@ -70,7 +71,7 @@ body {
     max-width: 20%; 
     border-right: 1px solid #dddddd;    
 }
-.chats-title-div, .games-title-div, .active-chat-title-div {
+.chats-title-div, .right-title-div, .active-chat-title-div {
     box-sizing: border-box;
     border-bottom: 1px solid #dddddd;
     height: 8vh;
@@ -79,7 +80,10 @@ body {
     justify-content: space-around;
     padding-top: 15px;
 }
-.group-chat {
+.games-title-div {
+    border-top: 1px solid #dddddd;
+}
+.group-chat, .friend {
     overflow: hidden;
     box-sizing: border-box;
     display: flex;
@@ -95,21 +99,28 @@ body {
 .using-chat {
     background-color: rgba(221, 221, 221, 0.63);
 }
-.group-description {
+.group-description, .friend-description {
     padding-left: 10px;
     text-align: center;
 
 }
-.group-name {
+.group-name, .friend-name {
     display: inline-block;  
+}
+.friend-name {
+    padding-top: 12px;
 }
 .last-post {
     display: inline-block;
     font-size: 0.8rem;
 }
-.group-photo {
+.group-photo, .friend-photo, .author-photo {
     border-radius: 50%;
     width: 100px;
+}
+
+.friend-photo, .author-photo {
+    width: 60px;
 }
 .group-chat span {
     max-width: 100%;
@@ -175,7 +186,8 @@ body {
     border-top: 1px solid #dddddd;
     align-self: flex-end;
 }
-.games-menu {
+.right-menu {
+    overflow-y: scroll;
     max-width: 17%;
     flex-grow: 1;
     border-left: 1px solid #dddddd;
