@@ -18,6 +18,6 @@ function signOut() {
 // }
 
 var signOutButtonElement = document.getElementById('logout');
-signOutButtonElement.addEventListener('click', signOut());
+signOutButtonElement.addEventListener('click', signOut);
 
 // logStatusObserver();
