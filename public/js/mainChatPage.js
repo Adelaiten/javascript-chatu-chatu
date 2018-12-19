@@ -7,17 +7,25 @@ function isUserSignedIn() {
 }
 
 function signOut() {
-    firebase.auth().signOut()
-        .then(() => {window.location = '/index.html'});
+    firebase.auth().signOut();
+//        .then(() => {
+//            window.location = '/index.html';
+//        });
 }
 
-// function logStatusObserver() {
-//     if(!isUserSignedIn) {
-//         window.location = '/';
-//     }
-// }
+// Initiate Firebase Auth.
+function initFirebaseAuth() {
+  // Listen to auth state changes.
+  firebase.auth().onAuthStateChanged(authStateObserver);
+}
+
+ function authStateObserver(user) {
+     if(!user) {
+         window.location = '/';
+     }
+ }
 
 var signOutButtonElement = document.getElementById('logout');
 signOutButtonElement.addEventListener('click', signOut);
 
-// logStatusObserver();
+initFirebaseAuth();
