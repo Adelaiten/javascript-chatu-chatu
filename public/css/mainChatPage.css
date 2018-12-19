@@ -1,0 +1,80 @@
+body {
+    margin: 0;
+    padding: 0;
+
+}
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+}
+
+.header {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    width: 100%;
+    background-color: #5478c7;
+}
+
+.header-title {
+    text-transform: uppercase;
+    font-family: "Montserrat", sans-serif;
+    font-weight: bolder;
+    text-shadow: 1px 1px rgba(0,0,0,0.2);
+    font-size: 1.6rem;
+    color: #ffffff;
+}
+
+.sign-out-button {
+    padding: 0;
+    border: 0;
+    background-color: rgba(0,0,0,0);
+    margin-right: 10px;
+
+}
+
+.sign-out-button img {
+    width: 30px;
+}
+
+.content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.chats {
+    flex-grow: 3;
+}
+.active-chat {
+    flex-grow: 5;
+}
+.games-menu {
+    flex-grow: 1;
+    border-left: 1px solid #dddddd;
+    border-bottom:1px solid #dddddd;
+    height: 100vh;
+}
+
+.games-title-div{
+    box-sizing: border-box;
+    border-bottom: 1px solid #dddddd;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 10px;
+}
+
+.pong {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+.pong img {
+    width:100px;
+}
