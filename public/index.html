@@ -4,8 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>
-    Hello, we know you don't want to log in, but please, join us!
+    Czatu-Pingu
   </title>
+  <link rel="stylesheet" href="css/main.css">
+
 
 
 <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
@@ -23,13 +25,38 @@
 </script>
 </head>
 <body>
-  <div id="user-container">
-    </button>
-    <button id="sign-in" class="sign-in">
-      <i class="material-icons"></i>Sign-in with Google
-    </button>
-  </div>
+  <div id="wrapper">
+    <div id="content">
+      <div class="inner-content">
+        <h1 class="title">Czatu-Pingu</h1>
+        <p class="about">World's best chat application!</p>
+      </div>
+    </div>
+    <div id="login-panel">
+      <form action="action_page.php" class="login-form">
+        <div class="imgcontainer">
+          <img src="img/iconfinder_male3_403019.png" alt="Avatar" class="avatar">
+        </div> 
+          <div class="container">
+            <label for="uname">Username</label>
+            <input type="text" placeholder="Username" name="uname" required>
+            <label for="psw">Password</label>
+            <input type="password" placeholder="Password" name="psw" required>
+            <button type="submit">Login</button>
+            <button type="button" class="login-with-google">Sign in with Google</button>
 
+          </div>
+
+          <div class="container login-footer">
+              <button type="buttton" class="cancelbtn">Cancel</button>
+                
+                <span class="psw">Forgot <a href="#">Password?</a></span>
+          </div>
+      </form>
+
+    </div>
+    
+  </div>
   <script src="js/loginScripts.js"></script>
 </body>
 </html>
