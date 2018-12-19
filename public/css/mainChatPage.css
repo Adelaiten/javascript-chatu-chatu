@@ -50,6 +50,7 @@ body {
 
 .chats {
     flex-grow: 3;
+    max-width: 20%; 
     border-right: 1px solid #dddddd;    
 }
 .chats-title-div, .games-title-div, .active-chat-title-div {
@@ -61,8 +62,44 @@ body {
     justify-content: space-around;
     padding-top: 15px;
 }
+.group-chat {
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.using-chat {
+    background-color: rgba(221, 221, 221, 0.63);
+}
+.group-description {
+    padding-left: 10px;
+    text-align: center;
+
+}
+.group-name {
+    display: inline-block;  
+}
+.last-post {
+    display: inline-block;
+    font-size: 0.8rem;
+}
+.group-photo {
+    border-radius: 50%;
+    width: 100px;
+}
+.group-chat span {
+    max-width: 100%;
+}
 .active-chat {
     flex-grow: 5;
+    max-width: 63%;
     height:90vh;
     display: flex;
     flex-direction: column;
@@ -78,6 +115,18 @@ body {
     z-index: 1;
     width: 100%;
 }
+.message-coming-out {
+    align-self: flex-end;
+    max-width: 40%;
+}
+.message-coming-in {
+    max-width: 40%;
+}
+
+.message-coming-in, .message-coming-out .author {
+    font-size: 0.8rem;
+    padding-left: 15px;
+}
 .message-coming-out-interior, .message-coming-in-interior {
     color: #ffffff;
     font-size: 14px;
@@ -85,14 +134,13 @@ body {
     padding-right: 20px;
     padding-left: 20px;
     margin: 10px;
-    max-width: 40%;
+    
     border-top-right-radius: 50% 200%;
     border-bottom-right-radius: 50% 200%;
     border-top-left-radius: 50% 200%;
     border-bottom-left-radius: 50% 200%;
 }
 .message-coming-out-interior {
-    align-self: flex-end;
     background-color: #68e437;
 }
 
@@ -100,24 +148,29 @@ body {
 
     background-color: #db3a12;
 }
+
+
 .write-area {
+    
     width: 100%;
+    max-width: 100%;
     height: 20vh;
     border-top: 1px solid #dddddd;
     align-self: flex-end;
 }
 .games-menu {
+    max-width: 17%;
     flex-grow: 1;
     border-left: 1px solid #dddddd;
     border-bottom:1px solid #dddddd;
     height: 90vh;
 }
 
-.pong {
+.game {
     display: flex;
     justify-content: space-around;
     margin-top: 20px;
 }
-.pong img {
+.game img {
     width:100px;
 }
