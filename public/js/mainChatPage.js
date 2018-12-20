@@ -150,8 +150,31 @@ function initFirebaseAuth() {
   firebase.auth().onAuthStateChanged(authStateObserver);
 }
 
- function authStateObserver(user) {
+function addUserToDabase() {
+    var currentUser = firebase.auth().currentUser;
+    var email = currentUser.email;
+    var name = currentUser.displayName;
+    var userId = currentUser.uid;
+    const userDatabase = firebase.database().ref("users");
+
+    
+    userDatabase.once('value', function(snapshot) {
+        if(!snapshot.hasChild(userId)){
+            userDatabase.child(userId).set({
+                name : name,
+                email : email,
+                chats : [],
+                friends : []
+            });
+        }
+    });
+
+
+}
+
+ function authStateObserver(user) { //tutaj  metoda
      if(user) { 
+         addUserToDabase();
          loadUserInfo();
          loadChatRooms();
          loadMessages("testName1", 12);
@@ -173,6 +196,8 @@ function initFirebaseAuth() {
         }
 
  }
+
+
 
 function loadUserInfo(){
     const profilePictureUrl = getProfilePicUrl();
