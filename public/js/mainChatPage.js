@@ -10,6 +10,10 @@ function signOut() {
     firebase.auth().signOut();
 }
 
+function getProfileUID() {
+    return firebase.auth().currentUser.uid;
+}
+
 function getProfilePicUrl() {
   return firebase.auth().currentUser.photoURL || '/img/ping-pong.png';
 }
@@ -41,22 +45,22 @@ function addUserToDabase() {
 }
 
 // Loads chat message history and listens for upcoming ones.
-function loadMessages(chatName, limit) {
+function loadMessages(chatId, limit) {
   // Loads the last 12 messages and listens for new ones.
   var callback = function(snap) {
     var data = snap.val();
-      //     displayMessage(snap.key, data.name, data.text, data.profilePicUrl, data.imageUrl);
+        displayMessage(snap.key, data.authorId, data.authorName, data.text, data.profilePicUrl, data.imageUrl);
   };
 
-  firebase.database().ref(`/messages/${chatName}`).limitToLast(limit).on('child_added', callback);
-  firebase.database().ref(`/messages/${chatName}`).limitToLast(limit).on('child_changed', callback);
+  firebase.database().ref(`/messages/${chatId}`).limitToLast(limit).on('child_added', callback);
+  firebase.database().ref(`/messages/${chatId}`).limitToLast(limit).on('child_changed', callback);
 }
 
 function loadChatRooms() {
     let callback = function(snap) {
         let data = snap.val();
         if (!data.isPrivate){
-            displayChatRoom(data.chatName, data.members.length);
+            displayChatRoom(data.chatName, data.members.length, snap.key);
         }
     };
     
@@ -110,24 +114,29 @@ function loadFriendsList() {
 
 
 var MESSAGE_TEMPLATE =
-    '<div class="message-container">' +
-      '<div class="spacing"><div class="pic"></div></div>' +
-      '<div class="message"></div>' +
-      '<div class="name"></div>' +
+    '<div>' +
+        '<img src="img/dog.png" class="author-photo">' +
+        '<span class="author"></span>' +
+        '<span class="date"></span>' + 
+        '<div class="message message-coming-in-interior">' +
+            '<span></span>' +
+        '</div>' +
     '</div>';
 
 let CHAT_LI_TEMPLATE = 
     '<div class="group-chat">' +
       '<span class="group-description">' +
-        '<span class="group-name">R.O.H.A.N.</span>' +
-        '<span class="last-post">Ostatnia wiadomość</span>' +
+        '<span class="group-name"></span>' +
+        '<span class="last-post"></span>' +
       '</span>' +
     '</div>';
 
-function displayChatRoom(name, usersNumber){
+
+function displayChatRoom(name, usersNumber, id){
     let container = document.createElement('div');
     container.innerHTML = CHAT_LI_TEMPLATE;
     let div = container.firstChild;
+    div.setAttribute("id", id);
     chatList.appendChild(div);
     let chatName = div.querySelector('.group-name');
     chatName.textContent = name;
@@ -135,26 +144,39 @@ function displayChatRoom(name, usersNumber){
 }
 
 // Displays a Message in the UI.
-function displayMessage(key, name, text, picUrl, imageUrl) {
-  var div = document.getElementById(key);
-  // If an element for that message does not exists yet we create it.
-  if (!div) {
-//    var container = document.createElement('div');
-//    container.innerHTML = MESSAGE_TEMPLATE;
-//    div = container.firstChild;
-//    div.setAttribute('id', key);
-//    messageListElement.appendChild(div);
-  }
-  if (picUrl) {
-//    div.querySelector('.pic').style.backgroundImage = 'url(' + addSizeToGoogleProfilePic(picUrl) + ')';
-  }
+function displayMessage(key, authorId, authorName, text, picUrl, imageUrl) {
+    let div = document.getElementById(key);
+    // If an element for that message does not exists yet we create it.
+    if (!div) {
+        let container = document.createElement('div');
+        container.innerHTML = MESSAGE_TEMPLATE;
+        div = container.firstChild;
+        div.setAttribute('id', key);
+        chatElement.appendChild(div);
+    }
+    
+    let authorElement = div.querySelector('.author');
+    authorElement.id = authorId;
+    authorElement.textContent = authorName;
+    
+    if (authorElement.id === firebase.auth().currentUser.uid){
+        div.classList.add('message-coming-out');
+    } else {
+        div.classList.add('message-coming-in');
+    }
+    
+    if (picUrl) {
+        let authorPhotoElement = div.querySelector('.author-photo');
+        authorPhotoElement.setAttribute('src', picUrl);
+    //    div.querySelector('.pic').style.backgroundImage = 'url(' + addSizeToGoogleProfilePic(picUrl) + ')';
+    }
 //  div.querySelector('.name').textContent = name;
-  var messageElement = div.querySelector('.message');
-  if (text) { // If the message is text.
-    messageElement.textContent = text;
-    // Replace all line breaks by <br>.
-    messageElement.innerHTML = messageElement.innerHTML.replace(/\n/g, '<br>');
-  } else if (imageUrl) { // If the message is an image.
+    if (text) { // If the message is text.
+        let messageElement = div.querySelector('.message span');
+        messageElement.textContent = text;
+        // Replace all line breaks by <br>.
+        messageElement.innerHTML = messageElement.innerHTML.replace(/\n/g, '<br>');
+    } else if (imageUrl) { // If the message is an image.
 //    var image = document.createElement('img');
 //    image.addEventListener('load', function() {
 //      messageListElement.scrollTop = messageListElement.scrollHeight;
@@ -162,7 +184,7 @@ function displayMessage(key, name, text, picUrl, imageUrl) {
 //    image.src = imageUrl + '&' + new Date().getTime();
 //    messageElement.innerHTML = '';
 //    messageElement.appendChild(image);
-  }
+    }
   // Show the card fading-in and scroll to view the new message.
 //  setTimeout(function() {div.classList.add('visible')}, 1);
 //  messageListElement.scrollTop = messageListElement.scrollHeight;
@@ -203,10 +225,29 @@ function initFirebaseAuth() {
          loadUserInfo();
          loadChatRooms();
          loadFriendsList();
+         loadMessages("testName1", 12);
+         registerListeners();
+         chatHighlightFunctions();
      } else {
          window.location = '/';
      }
- }
+     
+
+        // FIRST PROMISE
+        // let promise1 = Promise.resolve(loadChatRooms);
+        // promise1.then(addChatHighlightFunctions);
+
+        // SECOND PROMISE
+        // function promise1() {
+        //   loadChatRooms();
+        //   return Promise.resolve(undefined);
+        // }
+        // promise1().then(addChatHighlightFunctions());
+
+        //CALLBACK
+        }
+
+ 
 
 
 
@@ -216,17 +257,42 @@ function loadUserInfo(){
 
     const userName = getUserName();
     document.getElementById('user-name').textContent = userName;
+    
+    currentUser = firebase.auth().currentUser;
 }
+
+function registerListeners(){
+    signOutButtonElement.addEventListener('click', signOut);
+    messageInputElement.addEventListener('keyup', sendMessage);
+}
+
+function sendMessage(ev){
+    if (ev.keyCode !== 13 || ev.shiftKey){
+        return;
+    }
+    
+    let chatId = "testName1";
+    let message = messageInputElement.value;
+//    message.replace('<br>', '\n');
+    
+    firebase.database().ref(`/messages/${chatId}`).push({
+        authorId : currentUser.uid,
+        authorName : getUserName(),
+        profilePicUrl : getProfilePicUrl(),
+        text : message
+    });
+    
+    messageInputElement.value = "";
+}
+
+// ===========================================================
+                                                        
+let currentUser;
 
 var signOutButtonElement = document.getElementById('logout');
 let chatList = document.getElementById('chats');
-//var messageInputElement = document.getElementById('message');
-
-signOutButtonElement.addEventListener('click', signOut);
-
-// Toggle for the button.
-//messageInputElement.addEventListener('keyup', toggleButton);
-//messageInputElement.addEventListener('change', toggleButton);
+let chatElement = document.getElementById('chat');
+let messageInputElement = document.getElementById('message-input');
 
 checkSetup();
 initFirebaseAuth();
