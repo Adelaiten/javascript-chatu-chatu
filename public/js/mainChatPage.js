@@ -19,15 +19,15 @@ function getUserName() {
 }
 
 // Loads chat message history and listens for upcoming ones.
-function loadMessages(chatName, limit) {
+function loadMessages(chatId, limit) {
   // Loads the last 12 messages and listens for new ones.
   var callback = function(snap) {
     var data = snap.val();
-      //     displayMessage(snap.key, data.name, data.text, data.profilePicUrl, data.imageUrl);
+        displayMessage(snap.key, data.name, data.text, data.profilePicUrl, data.imageUrl);
   };
 
-  firebase.database().ref(`/messages/${chatName}`).limitToLast(limit).on('child_added', callback);
-  firebase.database().ref(`/messages/${chatName}`).limitToLast(limit).on('child_changed', callback);
+  firebase.database().ref(`/messages/${chatId}`).limitToLast(limit).on('child_added', callback);
+  firebase.database().ref(`/messages/${chatId}`).limitToLast(limit).on('child_changed', callback);
 }
 
 function loadChatRooms() {
@@ -43,21 +43,24 @@ function loadChatRooms() {
 }
 
 var MESSAGE_TEMPLATE =
-    '<div class="message-container">' +
-      '<div class="spacing"><div class="pic"></div></div>' +
-      '<div class="message"></div>' +
-      '<div class="name"></div>' +
+    '<div class="message-coming-in">' +
+        '<img src="img/dog.png" class="author-photo">' +
+        '<span class="author"></span>' +
+        '<span class="date"></span>' + 
+        '<div class="message message-coming-in-interior">' +
+            '<span></span>' +
+        '</div>' +
     '</div>';
 
 let CHAT_LI_TEMPLATE = 
     '<div class="group-chat">' +
       '<span class="group-description">' +
-        '<span class="group-name">R.O.H.A.N.</span>' +
-        '<span class="last-post">Ostatnia wiadomość</span>' +
+        '<span class="group-name"></span>' +
+        '<span class="last-post"></span>' +
       '</span>' +
     '</div>';
 
-function displayChatRoom(name, usersNumber){
+function displayChatRoom(name, usersNumber) {
     let container = document.createElement('div');
     container.innerHTML = CHAT_LI_TEMPLATE;
     let div = container.firstChild;
@@ -69,25 +72,31 @@ function displayChatRoom(name, usersNumber){
 
 // Displays a Message in the UI.
 function displayMessage(key, name, text, picUrl, imageUrl) {
-  var div = document.getElementById(key);
-  // If an element for that message does not exists yet we create it.
-  if (!div) {
-//    var container = document.createElement('div');
-//    container.innerHTML = MESSAGE_TEMPLATE;
-//    div = container.firstChild;
-//    div.setAttribute('id', key);
-//    messageListElement.appendChild(div);
-  }
-  if (picUrl) {
-//    div.querySelector('.pic').style.backgroundImage = 'url(' + addSizeToGoogleProfilePic(picUrl) + ')';
-  }
+    let div = document.getElementById(key);
+    // If an element for that message does not exists yet we create it.
+    if (!div) {
+        let container = document.createElement('div');
+        container.innerHTML = MESSAGE_TEMPLATE;
+        div = container.firstChild;
+        div.setAttribute('id', key);
+        chatElement.appendChild(div);
+    }
+    
+    let authorElement = div.querySelector('.author');
+    authorElement.textContent = name;
+    
+    if (picUrl) {
+        let authorPhotoElement = div.querySelector('.author-photo');
+        authorPhotoElement.setAttribute('src', picUrl);
+    //    div.querySelector('.pic').style.backgroundImage = 'url(' + addSizeToGoogleProfilePic(picUrl) + ')';
+    }
 //  div.querySelector('.name').textContent = name;
-  var messageElement = div.querySelector('.message');
-  if (text) { // If the message is text.
-    messageElement.textContent = text;
-    // Replace all line breaks by <br>.
-    messageElement.innerHTML = messageElement.innerHTML.replace(/\n/g, '<br>');
-  } else if (imageUrl) { // If the message is an image.
+    if (text) { // If the message is text.
+        let messageElement = div.querySelector('.message span');
+        messageElement.textContent = text;
+        // Replace all line breaks by <br>.
+        messageElement.innerHTML = messageElement.innerHTML.replace(/\n/g, '<br>');
+    } else if (imageUrl) { // If the message is an image.
 //    var image = document.createElement('img');
 //    image.addEventListener('load', function() {
 //      messageListElement.scrollTop = messageListElement.scrollHeight;
@@ -95,7 +104,7 @@ function displayMessage(key, name, text, picUrl, imageUrl) {
 //    image.src = imageUrl + '&' + new Date().getTime();
 //    messageElement.innerHTML = '';
 //    messageElement.appendChild(image);
-  }
+    }
   // Show the card fading-in and scroll to view the new message.
 //  setTimeout(function() {div.classList.add('visible')}, 1);
 //  messageListElement.scrollTop = messageListElement.scrollHeight;
@@ -132,6 +141,7 @@ function initFirebaseAuth() {
      if(user) { 
          loadUserInfo();
          loadChatRooms();
+         loadMessages("testName1", 12);
      } else {
          window.location = '/';
      }
@@ -147,6 +157,7 @@ function loadUserInfo(){
 
 var signOutButtonElement = document.getElementById('logout');
 let chatList = document.getElementById('chats');
+let chatElement = document.getElementById('chat');
 //var messageInputElement = document.getElementById('message');
 
 signOutButtonElement.addEventListener('click', signOut);

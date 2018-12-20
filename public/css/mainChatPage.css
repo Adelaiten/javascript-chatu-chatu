@@ -144,7 +144,7 @@ body {
     flex-direction: column;
     justify-content: space-between; 
 }
-.chat {
+#chat {
     overflow-y: scroll;
     box-sizing: border-box;
     display: flex;
