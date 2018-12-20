@@ -67,6 +67,7 @@ function FindByAttributeValue(attribute, value, element_type)    {
 function switchChats(id, limit) {
     clearChatMessages();
     loadMessages(id, limit);
+    changeActiveChatNameOnWebpage(nowHighlighted);
 }
 
 function clearChatMessages() {
@@ -74,4 +75,10 @@ function clearChatMessages() {
     while (myNode.firstChild) {
         myNode.removeChild(myNode.firstChild);
     }
+}
+
+function changeActiveChatNameOnWebpage(nowHighlighted) {
+    let span = document.getElementById("active-chat-name");
+    let activeChatElement = FindByAttributeValue("id", nowHighlighted, "div");
+    span.textContent = activeChatElement.getAttribute("name");
 }

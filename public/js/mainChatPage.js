@@ -140,6 +140,7 @@ function displayChatRoom(name, usersNumber, id){
     chatList.appendChild(div);
     let chatName = div.querySelector('.group-name');
     chatName.textContent = name;
+    div.setAttribute("name", name);
     div.querySelector('.last-post').textContent = `members: ${usersNumber}`;
 }
 
@@ -251,7 +252,7 @@ function sendMessage(ev){
     if (ev.keyCode !== 13 || ev.shiftKey){
         return;
     }
-    
+
     let chatId = nowHighlighted;
     let message = messageInputElement.value;
 //    message.replace('<br>', '\n');
