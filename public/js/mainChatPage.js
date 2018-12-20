@@ -23,7 +23,7 @@ function loadMessages(chatId, limit) {
   // Loads the last 12 messages and listens for new ones.
   var callback = function(snap) {
     var data = snap.val();
-        displayMessage(snap.key, data.name, data.text, data.profilePicUrl, data.imageUrl);
+        displayMessage(snap.key, data.authorId, data.authorName, data.text, data.profilePicUrl, data.imageUrl);
   };
 
   firebase.database().ref(`/messages/${chatId}`).limitToLast(limit).on('child_added', callback);
@@ -43,7 +43,7 @@ function loadChatRooms() {
 }
 
 var MESSAGE_TEMPLATE =
-    '<div class="message-coming-in">' +
+    '<div>' +
         '<img src="img/dog.png" class="author-photo">' +
         '<span class="author"></span>' +
         '<span class="date"></span>' + 
@@ -71,7 +71,7 @@ function displayChatRoom(name, usersNumber) {
 }
 
 // Displays a Message in the UI.
-function displayMessage(key, name, text, picUrl, imageUrl) {
+function displayMessage(key, authorId, authorName, text, picUrl, imageUrl) {
     let div = document.getElementById(key);
     // If an element for that message does not exists yet we create it.
     if (!div) {
@@ -83,7 +83,14 @@ function displayMessage(key, name, text, picUrl, imageUrl) {
     }
     
     let authorElement = div.querySelector('.author');
-    authorElement.textContent = name;
+    authorElement.id = authorId;
+    authorElement.textContent = authorName;
+    
+    if (authorElement.id === firebase.auth().currentUser.uid){
+        div.classList.add('message-coming-out');
+    } else {
+        div.classList.add('message-coming-in');
+    }
     
     if (picUrl) {
         let authorPhotoElement = div.querySelector('.author-photo');
