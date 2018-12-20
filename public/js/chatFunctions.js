@@ -1,13 +1,9 @@
 function createPublicChat() {
     let chatName = prompt("What's your new chat room name?");
-    const chatDatabase = firebase.database().ref(`/chats/`).push();
-    chatKey = chatDatabase.key;
-    
-    chatDatabase.set({
+    const chatDatabase = firebase.database().ref(`/chats/`).push({
           chatName: chatName,
           isPrivate: false
     });
-    swapChat(key);
 }
 
 const createPublicChatBtn = document.getElementById("createPublicChatBtn");
@@ -25,11 +21,15 @@ function highlightActiveChat() {
     elementToAdHighlight.classList.add("using-chat");
     switchChats(nowHighlighted, 12);
     lastHighlighted = nowHighlighted;
+    firebase.database().ref(`/chats/${nowHighlighted}/members/`).update({
+        [getProfileUID()] : 1
+    });
 }
 
 function removeHighlight(lastHighlighted) {
     let elementToRemoveHighlight = FindByAttributeValue("id", lastHighlighted, "div");
     elementToRemoveHighlight.classList.remove("using-chat");
+    quitChatRoom();
 }
 
 
@@ -54,16 +54,14 @@ function chatHighlightFunctions() {
 
 function swapChat(target){
     if(getIDIfChatExists(target, "group-chat")) {
-        if (lastHighlighted){
-            firebase.database().ref(`/chats/${lastHighlighted}/members`).set({
-                [getProfileUID()] : null
-            });
-        }
         highlightActiveChat();
-        firebase.database().ref(`/chats/${nowHighlighted}/members`).set({
-            [getProfileUID()] : 1
-        });
     }
+}
+
+function quitChatRoom(){
+    firebase.database().ref(`/chats/${lastHighlighted}/members/`).update({
+        [getProfileUID()] : null
+    });
 }
 
 function FindByAttributeValue(attribute, value, element_type)    {
