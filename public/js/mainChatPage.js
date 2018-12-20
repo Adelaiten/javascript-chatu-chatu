@@ -22,6 +22,28 @@ function getUserName() {
   return firebase.auth().currentUser.displayName;
 }
 
+function addUserToDabase() {
+  var currentUser = firebase.auth().currentUser;
+  var email = currentUser.email;
+  var name = currentUser.displayName;
+  var userId = currentUser.uid;
+  const userDatabase = firebase.database().ref("users");
+
+  
+  userDatabase.once('value', function(snapshot) {
+      if(!snapshot.hasChild(userId)){
+          userDatabase.child(userId).set({
+              name : name,
+              email : email,
+              friends : ["FqxwVP2JyRXtzv1QPVD1gHLzHvl1", "Bca7lAlqmphAq36YrngezEw4EsR2"],
+              chats : []
+          });
+      }
+  });
+
+
+}
+
 // Loads chat message history and listens for upcoming ones.
 function loadMessages(chatId, limit) {
   // Loads the last 12 messages and listens for new ones.
@@ -38,13 +60,58 @@ function loadChatRooms() {
     let callback = function(snap) {
         let data = snap.val();
         if (!data.isPrivate){
-            displayChatRoom(data.chatName, data.members.length);
+            displayChatRoom(data.chatName, data.members.length, snap.key);
         }
     };
     
     firebase.database().ref(`/chats/`).on('child_added', callback);
     firebase.database().ref(`/chats/`).on('child_changed', callback);
 }
+
+
+
+function loadFriendsList() {
+  var userId = firebase.auth().currentUser.uid;
+  var userFriendsDatabase = firebase.database().ref('users/' + userId + "/friends");
+  var friendsList = document.getElementsByClassName("friends")[0];
+
+  
+  userFriendsDatabase.on('value', function(snapshot){
+    snapshot.forEach(function(childSnapshot){
+      var friendId = childSnapshot.val();
+
+      console.log(friendId);
+      var friendDatabase = firebase.database().ref('users/' + friendId);
+      console.log(friendDatabase);
+
+      var friendDiv = document.createElement("div");
+      friendDiv.setAttribute("id", friendId);
+      var imageFriend = document.createElement("img");
+      var friendDescriptionSpan = document.createElement("span");
+      var friendNameSpan = document.createElement("span");
+      friendDiv.classList.add("friend");
+      imageFriend.setAttribute("src", "img/dog.png");
+      
+      imageFriend.classList.add("friend-photo");
+      friendDescriptionSpan.classList.add("friend-description");
+      friendNameSpan.classList.add("friend-name");
+
+      friendDatabase.once('value', function(friendSnapshot){
+        friendNameSpan.textContent = friendSnapshot.val().name;
+        friendDescriptionSpan.appendChild(friendNameSpan);
+        friendDiv.appendChild(imageFriend);
+        friendDiv.appendChild(friendDescriptionSpan);
+
+
+        friendsList.appendChild(friendDiv);
+
+      })
+    })
+
+  });
+}
+
+
 
 var MESSAGE_TEMPLATE =
     '<div>' +
@@ -64,10 +131,12 @@ let CHAT_LI_TEMPLATE =
       '</span>' +
     '</div>';
 
-function displayChatRoom(name, usersNumber) {
+
+function displayChatRoom(name, usersNumber, id){
     let container = document.createElement('div');
     container.innerHTML = CHAT_LI_TEMPLATE;
     let div = container.firstChild;
+    div.setAttribute("id", id);
     chatList.appendChild(div);
     let chatName = div.querySelector('.group-name');
     chatName.textContent = name;
@@ -148,39 +217,37 @@ function initFirebaseAuth() {
   firebase.auth().onAuthStateChanged(authStateObserver);
 }
 
-function addUserToDabase() {
-    var currentUser = firebase.auth().currentUser;
-    var email = currentUser.email;
-    var name = currentUser.displayName;
-    var userId = currentUser.uid;
-    const userDatabase = firebase.database().ref("users");
 
-    
-    userDatabase.once('value', function(snapshot) {
-        if(!snapshot.hasChild(userId)){
-            userDatabase.child(userId).set({
-                name : name,
-                email : email,
-                chats : [],
-                friends : []
-            });
-        }
-    });
-
-
-}
 
  function authStateObserver(user) { //tutaj  metoda
      if(user) { 
          addUserToDabase();
          loadUserInfo();
          loadChatRooms();
+         loadFriendsList();
          loadMessages("testName1", 12);
          registerListeners();
+         chatHighlightFunctions();
      } else {
          window.location = '/';
      }
- }
+     
+
+        // FIRST PROMISE
+        // let promise1 = Promise.resolve(loadChatRooms);
+        // promise1.then(addChatHighlightFunctions);
+
+        // SECOND PROMISE
+        // function promise1() {
+        //   loadChatRooms();
+        //   return Promise.resolve(undefined);
+        // }
+        // promise1().then(addChatHighlightFunctions());
+
+        //CALLBACK
+        }
+
+ 
 
 
 
