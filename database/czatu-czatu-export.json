@@ -1,0 +1,50 @@
+{
+  "chats" : {
+    "testName1" : {
+      "isPrivate" : false,
+      "members" : [ "Adrian", "Rafał", "Karol", "Krzysiek" ]
+    },
+    "testName2" : {
+      "isPrivate" : true,
+      "members" : [ "Adrian", "Rafał" ]
+    }
+  },
+  "messages" : {
+    "testName1" : {
+      "K2ib4H77rj0LYewF7dP" : {
+        "name" : "Adrian",
+        "profilePicUrl" : "https://lh5.googleusercontent.com/-HYZ4QQH9MQA/AAAAAAAAAAI/AAAAAAAABNE/V41YEyl1mK4/photo.jpg",
+        "text" : "Hello gays!"
+      },
+      "LU0Ye3mSLZYac9NQECx" : {
+        "imageUrl" : "https://firebasestorage.googleapis.com/v0/b/friendly-chat-2415e.appspot.com/o/fV5zY8eJVvZrnWRyujoYaTcNR8U2%2F-LU0Ye3mSLZYac9NQECx%2FZ%C5%82ota_%C5%82opatka.jpg?alt=media&token=b8fe7c11-0768-440d-b8f5-f0d361960998",
+        "name" : "Karol",
+        "storageUri" : "fV5zY8eJVvZrnWRyujoYaTcNR8U2/-LU0Ye3mSLZYac9NQECx/Złota_łopatka.jpg"
+      }
+    },
+    "testName2" : {
+      "K2ib4H77rj0LYewF7dg" : {
+        "name" : "Rafał",
+        "text" : "Siema! ;]"
+      }
+    }
+  },
+  "users" : {
+    "Adrian" : {
+      "chats": [ "testName1", "testName2" ],
+      "friends" : ["Karol", "Krzysiek", "Rafał"]
+    },
+    "Karol" : {
+      "chats" : [ "testName1" ],
+      "friends" : ["Adrian", "Krzysiek", "Rafał"]
+    },
+    "Krzysiek" : {
+      "chats" : [ "testName1" ],
+      "friends" : ["Adrian", "Karol", "Rafał"]
+    },
+    "Rafał" : {
+      "chats" : [ "testName1", "testName2" ],
+      "friends" : ["Adrian", "Karol", "Krzysiek"]
+    }
+  }
+}
