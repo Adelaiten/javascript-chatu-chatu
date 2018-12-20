@@ -24,6 +24,7 @@ function highlightActiveChat() {
     removeHighlight(lastHighlighted);
     let elementToAdHighlight = FindByAttributeValue("id", nowHighlighted, "div");
     elementToAdHighlight.classList.add("using-chat");
+    switchChats(nowHighlighted, 12);
     lastHighlighted = nowHighlighted;
 }
 
@@ -61,4 +62,8 @@ function FindByAttributeValue(attribute, value, element_type)    {
     for (var i = 0; i < All.length; i++)       {
       if (All[i].getAttribute(attribute) == value) { return All[i]; }
     }
+}
+
+function switchChats(id, limit) {
+    loadMessages(id, limit)
 }
