@@ -10,6 +10,10 @@ function signOut() {
     firebase.auth().signOut();
 }
 
+function getProfileUID() {
+    return firebase.auth().currentUser.uid;
+}
+
 function getProfilePicUrl() {
   return firebase.auth().currentUser.photoURL || '/img/ping-pong.png';
 }
@@ -149,6 +153,7 @@ function initFirebaseAuth() {
          loadUserInfo();
          loadChatRooms();
          loadMessages("testName1", 12);
+         registerListeners();
      } else {
          window.location = '/';
      }
@@ -160,18 +165,42 @@ function loadUserInfo(){
 
     const userName = getUserName();
     document.getElementById('user-name').textContent = userName;
+    
+    currentUser = firebase.auth().currentUser;
 }
+
+function registerListeners(){
+    signOutButtonElement.addEventListener('click', signOut);
+    messageInputElement.addEventListener('keyup', sendMessage);
+}
+
+function sendMessage(ev){
+    if (ev.keyCode !== 13 || ev.shiftKey){
+        return;
+    }
+    
+    let chatId = "testName1";
+    let message = messageInputElement.value;
+//    message.replace('<br>', '\n');
+    
+    firebase.database().ref(`/messages/${chatId}`).push({
+        authorId : currentUser.uid,
+        authorName : getUserName(),
+        profilePicUrl : getProfilePicUrl(),
+        text : message
+    });
+    
+    messageInputElement.value = "";
+}
+
+// ===========================================================
+                                                        
+let currentUser;
 
 var signOutButtonElement = document.getElementById('logout');
 let chatList = document.getElementById('chats');
 let chatElement = document.getElementById('chat');
-//var messageInputElement = document.getElementById('message');
-
-signOutButtonElement.addEventListener('click', signOut);
-
-// Toggle for the button.
-//messageInputElement.addEventListener('keyup', toggleButton);
-//messageInputElement.addEventListener('change', toggleButton);
+let messageInputElement = document.getElementById('message-input');
 
 checkSetup();
 initFirebaseAuth();
