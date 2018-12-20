@@ -40,7 +40,6 @@ function loadChatRooms() {
     
     firebase.database().ref(`/chats/`).on('child_added', callback);
     firebase.database().ref(`/chats/`).on('child_changed', callback);
-    resolve();
 }
 
 var MESSAGE_TEMPLATE =
@@ -134,12 +133,23 @@ function initFirebaseAuth() {
  function authStateObserver(user) {
      if(user) { 
          loadUserInfo();
-        //  loadChatRooms();
-        let promise1 = Promise.resolve(loadChatRooms());
-        promise1.then(addChatHighlightFunctions());
-     } else {
-         window.location = '/';
-     }
+         loadChatRooms();
+         chatHighlightFunctions();
+
+        // FIRST PROMISE
+        // let promise1 = Promise.resolve(loadChatRooms);
+        // promise1.then(addChatHighlightFunctions);
+
+        // SECOND PROMISE
+        // function promise1() {
+        //   loadChatRooms();
+        //   return Promise.resolve(undefined);
+        // }
+        // promise1().then(addChatHighlightFunctions());
+
+        //CALLBACK
+        }
+
  }
 
 function loadUserInfo(){

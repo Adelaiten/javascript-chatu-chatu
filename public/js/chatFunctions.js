@@ -16,33 +16,49 @@ createPublicChatBtn.addEventListener("click", createPublicChat);
 
 
 let lastHighlighted;
+let nowHighlighted;
 
 function highlightActiveChat() {
-    console.log("dupa");
+    console.log(lastHighlighted);
+    console.log(nowHighlighted);
     removeHighlight(lastHighlighted);
-    this.classList.add("using-chat");
-    lastHighlighted = this.getAttribute("id");
+    let elementToAdHighlight = FindByAttributeValue("id", nowHighlighted, "div");
+    elementToAdHighlight.classList.add("using-chat");
+    lastHighlighted = nowHighlighted;
 }
 
 function removeHighlight(lastHighlighted) {
-    let elementToRemoveHighlight = FindByAttributeValue("id", lastHighlighted);
+    let elementToRemoveHighlight = FindByAttributeValue("id", lastHighlighted, "div");
     elementToRemoveHighlight.classList.remove("using-chat");
 }
 
-function addChatHighlightFunctions() {
-    let classname = document.getElementsByClassName('group-chat');
 
-    for (let i = 0; i < classname.length; i++) {
-        classname[i].addEventListener('click', highlightActiveChat, false);
+function getChatID(element, className) {
+    do {
+      if (element.classList && element.classList.contains(className)) {
+        nowHighlighted = element.getAttribute("id");
+        return true;
+      }
+      element = element.parentNode;
+    } while (element);
+    return false;
+}
 
-    // let theParent = document.querySelector(".group-chat");
-    // theParent.addEventListener("click", attachEvent, false);
- 
-    // function attachEvent(e) {
-    //     if (e.target !== e.currentTarget) {
-    //         let clickedItem = e.target.id;
-    //         clickedItem.highlightActiveChat();
-    //     }
-    //     e.stopPropagation();
+function chatHighlightFunctions() {
+
+    let chats = document.getElementById('chats');
+
+    chats.addEventListener('click', (event) => {
+        if(getChatID(event.target, "group-chat")) {
+            highlightActiveChat();
+        }
+    }, false);
+}
+
+function FindByAttributeValue(attribute, value, element_type)    {
+    element_type = element_type || "*";
+    var All = document.getElementsByTagName(element_type);
+    for (var i = 0; i < All.length; i++)       {
+      if (All[i].getAttribute(attribute) == value) { return All[i]; }
     }
 }
