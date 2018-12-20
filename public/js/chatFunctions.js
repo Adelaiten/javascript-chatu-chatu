@@ -1,14 +1,16 @@
 function createPublicChat() {
     let chatName = prompt("What's your new chat room name?");
-    const chatDatabase = firebase.database().ref(`/chats/`);
-
-    chatDatabase.push({
+    const chatDatabase = firebase.database().ref(`/chats/`).push();
+    chatKey = chatDatabase.key;
+    
+    chatDatabase.set({
           chatName: chatName,
           isPrivate: false,
           members: {
-              0: getUserName()
+//              [getProfileUID()] : 1
           }
     });
+    swapChat(key);
 }
 
 const createPublicChatBtn = document.getElementById("createPublicChatBtn");
@@ -46,14 +48,25 @@ function getIDIfChatExists(element, className) {
 }
 
 function chatHighlightFunctions() {
-
     let chats = document.getElementById('chats');
 
     chats.addEventListener('click', (event) => {
-        if(getIDIfChatExists(event.target, "group-chat")) {
-            highlightActiveChat();
-        }
+        swapChat(event.target);
     }, false);
+}
+
+function swapChat(target){
+    if(getIDIfChatExists(target, "group-chat")) {
+        if (lastHighlighted){
+            firebase.database().ref(`/chats/${lastHighlighted}/members`).set({
+                [getProfileUID()] : null
+            });
+        }
+        highlightActiveChat();
+        firebase.database().ref(`/chats/${nowHighlighted}/members`).set({
+            [getProfileUID()] : 1
+        });
+    }
 }
 
 function FindByAttributeValue(attribute, value, element_type)    {

@@ -60,7 +60,11 @@ function loadChatRooms() {
     let callback = function(snap) {
         let data = snap.val();
         if (!data.isPrivate){
-            displayChatRoom(data.chatName, data.members.length, snap.key);
+            let memebersNumber = 0;
+            if (data.members){
+                memebersNumber = Object.keys(data.members).length;
+            }
+            displayChatRoom(data.chatName, memebersNumber, snap.key);
         }
     };
     
@@ -76,39 +80,39 @@ function loadFriendsList() {
   var friendsList = document.getElementsByClassName("friends")[0];
 
   
-  userFriendsDatabase.on('value', function(snapshot){
-    snapshot.forEach(function(childSnapshot){
-      var friendId = childSnapshot.val();
-
-      console.log(friendId);
-      var friendDatabase = firebase.database().ref('users/' + friendId);
-      console.log(friendDatabase);
-
-      var friendDiv = document.createElement("div");
-      friendDiv.setAttribute("id", friendId);
-      var imageFriend = document.createElement("img");
-      var friendDescriptionSpan = document.createElement("span");
-      var friendNameSpan = document.createElement("span");
-      friendDiv.classList.add("friend");
-      imageFriend.setAttribute("src", "img/dog.png");
-      
-      imageFriend.classList.add("friend-photo");
-      friendDescriptionSpan.classList.add("friend-description");
-      friendNameSpan.classList.add("friend-name");
-
-      friendDatabase.once('value', function(friendSnapshot){
-        friendNameSpan.textContent = friendSnapshot.val().name;
-        friendDescriptionSpan.appendChild(friendNameSpan);
-        friendDiv.appendChild(imageFriend);
-        friendDiv.appendChild(friendDescriptionSpan);
-
-
-        friendsList.appendChild(friendDiv);
-
-      })
-    })
-
-  });
+//  userFriendsDatabase.on('value', function(snapshot){
+//    snapshot.forEach(function(childSnapshot){
+//      var friendId = childSnapshot.val();
+//
+//      console.log(friendId);
+//      var friendDatabase = firebase.database().ref('users/' + friendId);
+//      console.log(friendDatabase);
+//
+//      var friendDiv = document.createElement("div");
+//      friendDiv.setAttribute("id", friendId);
+//      var imageFriend = document.createElement("img");
+//      var friendDescriptionSpan = document.createElement("span");
+//      var friendNameSpan = document.createElement("span");
+//      friendDiv.classList.add("friend");
+//      imageFriend.setAttribute("src", "img/dog.png");
+//      
+//      imageFriend.classList.add("friend-photo");
+//      friendDescriptionSpan.classList.add("friend-description");
+//      friendNameSpan.classList.add("friend-name");
+//
+//      friendDatabase.once('value', function(friendSnapshot){
+//        friendNameSpan.textContent = friendSnapshot.val().name;
+//        friendDescriptionSpan.appendChild(friendNameSpan);
+//        friendDiv.appendChild(imageFriend);
+//        friendDiv.appendChild(friendDescriptionSpan);
+//
+//
+//        friendsList.appendChild(friendDiv);
+//
+//      })
+//    })
+//
+//  });
 }
 
 
@@ -133,11 +137,14 @@ let CHAT_LI_TEMPLATE =
 
 
 function displayChatRoom(name, usersNumber, id){
-    let container = document.createElement('div');
-    container.innerHTML = CHAT_LI_TEMPLATE;
-    let div = container.firstChild;
-    div.setAttribute("id", id);
-    chatList.appendChild(div);
+    let div = document.getElementById(id);
+    if (!div){
+        let container = document.createElement('div');
+        container.innerHTML = CHAT_LI_TEMPLATE;
+        div = container.firstChild;
+        div.setAttribute("id", id);
+        chatList.appendChild(div);
+    }
     let chatName = div.querySelector('.group-name');
     chatName.textContent = name;
     div.querySelector('.last-post').textContent = `members: ${usersNumber}`;
