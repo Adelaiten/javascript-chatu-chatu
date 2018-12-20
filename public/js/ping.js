@@ -208,7 +208,13 @@ function game(){
     aiPosition();
 }
 
+
 setInterval(game, 1000/120);
+
+document.getElementById("ping-pong").addEventListener("click", function() {
+    document.getElementById("canvas").style.display="block";
+    game();
+});
 
 
 
