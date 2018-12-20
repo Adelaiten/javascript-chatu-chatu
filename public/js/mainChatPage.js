@@ -34,7 +34,7 @@ function loadChatRooms() {
     let callback = function(snap) {
         let data = snap.val();
         if (!data.isPrivate){
-            displayChatRoom(snap.key, data.members.length);
+            displayChatRoom(data.chatName, data.members.length);
         }
     };
     
