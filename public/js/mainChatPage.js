@@ -252,6 +252,13 @@ function sendMessage(ev){
         return;
     }
     
+    if (!nowHighlighted){
+        const NO_CHAT_ROOM_ELEMENT = document.createElement('div');
+        NO_CHAT_ROOM_ELEMENT.textContent = "Please select a chat room!";
+        chatElement.appendChild(NO_CHAT_ROOM_ELEMENT);
+        return;
+    }
+    
     let chatId = nowHighlighted;
     let message = messageInputElement.value;
 //    message.replace('<br>', '\n');
