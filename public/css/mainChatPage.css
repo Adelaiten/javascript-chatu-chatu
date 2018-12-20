@@ -73,6 +73,18 @@ body {
 
 .sign-out-button img {
     width: 30px;
+    height: 30px;
+}
+
+#menu {
+    padding: 0;
+    border: 0;
+    background-color: rgba(0,0,0,0);
+    cursor:pointer;
+}
+#menu img {
+    width: 30px;
+    height: 30px;
 }
 
 .content{
