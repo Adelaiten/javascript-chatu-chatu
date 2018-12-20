@@ -8,7 +8,6 @@ function signInWithGoogle() {
 
 function authStateObserver() {
     firebase.auth().onAuthStateChanged(function(user) {
-        console.log("dupa");
         if (user) {
             window.location = "/mainChatPage.html";
         }
