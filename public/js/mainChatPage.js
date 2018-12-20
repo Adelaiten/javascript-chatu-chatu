@@ -34,7 +34,7 @@ function loadChatRooms() {
     let callback = function(snap) {
         let data = snap.val();
         if (!data.isPrivate){
-            displayChatRoom(snap.key, data.members.length);
+            displayChatRoom(data.chatName, data.members.length);
         }
     };
     
@@ -128,14 +128,39 @@ function initFirebaseAuth() {
   firebase.auth().onAuthStateChanged(authStateObserver);
 }
 
- function authStateObserver(user) {
+function addUserToDabase() {
+    var currentUser = firebase.auth().currentUser;
+    var email = currentUser.email;
+    var name = currentUser.displayName;
+    var userId = currentUser.uid;
+    const userDatabase = firebase.database().ref("users");
+
+    
+    userDatabase.once('value', function(snapshot) {
+        if(!snapshot.hasChild(userId)){
+            userDatabase.child(userId).set({
+                name : name,
+                email : email,
+                chats : [],
+                friends : []
+            });
+        }
+    });
+
+
+}
+
+ function authStateObserver(user) { //tutaj  metoda
      if(user) { 
+         addUserToDabase();
          loadUserInfo();
          loadChatRooms();
      } else {
          window.location = '/';
      }
  }
+
+
 
 function loadUserInfo(){
     const profilePictureUrl = getProfilePicUrl();
