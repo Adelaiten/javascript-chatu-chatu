@@ -38,9 +38,11 @@ function getIDIfChatExists(element, className) {
     do {
       if (element.classList && element.classList.contains(className)) {
         nowHighlighted = element.getAttribute("id");
+        return true;
       }
       element = element.parentNode;
     } while (element);
+    return false;
 }
 
 function chatHighlightFunctions() {
