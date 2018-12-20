@@ -34,12 +34,13 @@ function loadChatRooms() {
     let callback = function(snap) {
         let data = snap.val();
         if (!data.isPrivate){
-            displayChatRoom(data.chatName, data.members.length);
+            displayChatRoom(data.chatName, data.members.length, snap.key);
         }
     };
     
     firebase.database().ref(`/chats/`).on('child_added', callback);
     firebase.database().ref(`/chats/`).on('child_changed', callback);
+    resolve();
 }
 
 var MESSAGE_TEMPLATE =
@@ -57,10 +58,12 @@ let CHAT_LI_TEMPLATE =
       '</span>' +
     '</div>';
 
-function displayChatRoom(name, usersNumber){
+
+function displayChatRoom(name, usersNumber, id){
     let container = document.createElement('div');
     container.innerHTML = CHAT_LI_TEMPLATE;
     let div = container.firstChild;
+    div.setAttribute("id", id);
     chatList.appendChild(div);
     let chatName = div.querySelector('.group-name');
     chatName.textContent = name;
@@ -131,7 +134,9 @@ function initFirebaseAuth() {
  function authStateObserver(user) {
      if(user) { 
          loadUserInfo();
-         loadChatRooms();
+        //  loadChatRooms();
+        let promise1 = Promise.resolve(loadChatRooms());
+        promise1.then(addChatHighlightFunctions());
      } else {
          window.location = '/';
      }
