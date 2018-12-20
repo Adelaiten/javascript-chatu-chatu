@@ -34,15 +34,13 @@ function removeHighlight(lastHighlighted) {
 }
 
 
-function getChatID(element, className) {
+function getIDIfChatExists(element, className) {
     do {
       if (element.classList && element.classList.contains(className)) {
         nowHighlighted = element.getAttribute("id");
-        return true;
       }
       element = element.parentNode;
     } while (element);
-    return false;
 }
 
 function chatHighlightFunctions() {
@@ -50,7 +48,7 @@ function chatHighlightFunctions() {
     let chats = document.getElementById('chats');
 
     chats.addEventListener('click', (event) => {
-        if(getChatID(event.target, "group-chat")) {
+        if(getIDIfChatExists(event.target, "group-chat")) {
             highlightActiveChat();
         }
     }, false);
@@ -65,5 +63,13 @@ function FindByAttributeValue(attribute, value, element_type)    {
 }
 
 function switchChats(id, limit) {
-    loadMessages(id, limit)
+    clearChatMessages();
+    loadMessages(id, limit);
+}
+
+function clearChatMessages() {
+    var myNode = document.getElementById("chat");
+    while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+    }
 }
