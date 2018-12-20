@@ -21,7 +21,7 @@
       <div id="chats">
         <div class="chats-title-div">
           <span class="chats-text-title">Chats</span>
-          <button type="button" id = "createPublicChatBtn">Create Public Chatroom</button>
+          <button type="button" id = "createPublicChatBtn"><img src="img/plus.svg"></button>
         </div>
       </div>
 
@@ -32,10 +32,6 @@
         <div id="chat">
 
         </div>
-        <label for="imageInput">
-            <div>Click this div and select an image.</div>
-        </label>
-        <input type="image" id="imageInput"/>
         <textarea resize="none" id="message-input" class="write-area" ></textarea>
       </div>
       <div class="right-menu">
@@ -56,13 +52,14 @@
             <div class="right-title-div games-title-div">
               <span class="games-name">Games</span>
             </div>
-            <div class="game"><img src="img/ping-pong.png"></div>
-            <div class="game"><img src="img/video-game.png"></div>
+            <div class="game"><button id="ping-pong"><img src="img/ping-pong.png"></button></div>
+            <div class="game"><button id="clicker-shooter"><img src="img/video-game.png"></button></div>
         </div>
       </div>
     </div>
     
   </div>
+  <canvas id="canvas"></canvas>
   <script src="/__/firebase/5.7.0/firebase-app.js"></script>
   <script src="/__/firebase/5.7.0/firebase-auth.js"></script>
   <script src="/__/firebase/5.7.0/firebase-database.js"></script>
@@ -71,6 +68,7 @@
   <script src="/__/firebase/init.js"></script>
   <script src="js/mainChatPage.js"></script>
   <script src="js/chatFunctions.js"></script>
+  <script src="js/ping.js"></script>
   <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
   <div>Icons made by <a href="https://www.flaticon.com/authors/dmitri13" title="dmitri13">dmitri13</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->

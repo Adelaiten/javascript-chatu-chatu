@@ -41,8 +41,9 @@ body {
 .user-photo {
     background-image: url(/img/dog.png);
     background-repeat: no-repeat;
-    height: 60px;
-    width: 60px;
+    height: 45px;
+    width: 45px;
+    background-position: 50%;
     background-size: 60px;
     border-radius: 50%;
     margin-top: 6px;
@@ -51,6 +52,7 @@ body {
 
 #user-name {
     padding-left: 10px;
+    padding-top: 20px;
     vertical-align: 120%;
     font-weight: bold;
     text-align: center;
@@ -83,14 +85,44 @@ body {
     border-right: 1px solid #dddddd;
     overflow-y: scroll;
 }
+
+#createPublicChatBtn {
+    
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background-color: rgba(0,0,0,0);
+    padding-right: 7%;
+    transform: translate(15%, -14%);
+
+}
+
+#createPublicChatBtn img {
+    fill: #5478c7;
+    width: 30px;
+    height: 30px;
+}
 .chats-title-div, .right-title-div, .active-chat-title-div {
     box-sizing: border-box;
+    border-top: 1px solid #dddddd;
     border-bottom: 1px solid #dddddd;
+    color: #000000;
     height: 8vh;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     padding-top: 15px;
+}
+.chats-title-div {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.chats-text-title {
+    padding-left: 40%;
+    padding-bottom: 5%;
+    align-self: center;
+    font-weight: bolder;
 }
 .games-title-div {
     border-top: 1px solid #dddddd;
@@ -222,4 +254,30 @@ body {
 }
 .game img {
     width:100px;
+}
+
+#ping-pong, #clicker-shooter {
+    padding: 0;
+    margin: 0;
+    background-color: rgba(0,0,0,0);
+    border: 0;
+}
+
+
+.friends-name, .active-chat-name, .games-name {
+    font-weight: bolder;
+    text-shadow: 1px 1px rgba(0,0,0,0.28);
+}
+
+
+
+#chat {
+    color: #000000;
+}
+canvas {
+    display: none;
+    position: absolute;
+    top: 20%;
+    bottom: 20%;
+    z-index: 2;
 }
