@@ -139,7 +139,13 @@ body {
     padding-left: 20px;
     padding-top: 5px;
     padding-bottom: 5px;
+    cursor: pointer;
 }
+
+.group-chat:hover, .friend:hover{
+    background-color: #c4daff;
+}
+
 .using-chat {
     background-color: rgba(221, 221, 221, 0.63);
 }
