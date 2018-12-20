@@ -5,10 +5,7 @@ function createPublicChat() {
     
     chatDatabase.set({
           chatName: chatName,
-          isPrivate: false,
-          members: {
-//              [getProfileUID()] : 1
-          }
+          isPrivate: false
     });
     swapChat(key);
 }
