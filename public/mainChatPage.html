@@ -3,22 +3,102 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>
-    Our messenger page v0.01
-  </title>
+  <title>Chatu-Pingu</title>
+  <link rel="stylesheet" href="css/mainChatPage.css">
 </head>
 <body>
-    <button id="logout" type="button">Logout</button>
+  <div class="wrapper">
+    <header class="header">
+      <span class="header-title">Chatu-Pingu</span>
+      <div class="user">
+        <div id="user-photo" class="user-photo"></div>
+        <div id="user-name"></div>
+      </div>
+      <button id="logout" type="button" class="sign-out-button"><img src="img/logout.svg"></button>
+    </header>
+    <div class="content">
 
+      <div id="chats">
+        <div class="chats-title-div">
+          <span class="chats-text-title">Chats</span>
+        </div>
+      </div>
 
+      <div class="active-chat">
+        <div class="active-chat-title-div">
+          <span class="active-chat-name">R.O.H.A.N.</span>
+        </div>
+        <div class="chat">
+          <div class="message-coming-out">
+            <img src="img/dog.png" class="author-photo">
+            <span class="author">Krzysztof Odoj</span>
+            <span class="date">13:25 12.06.2018</span>           
+            <div class="message-coming-out-interior">
+              <span>Testowy tekst ktory wychodzi</span>
+            </div>
+          </div>
+          <div class="message-coming-in">
+              <img src="img/dog.png" class="author-photo">
+              <span class="author">Adrian Ostromęcki</span>
+              <span class="date">13:25 12.06.2018</span>   
+              <div class="message-coming-in-interior">
+                <span>Testowy tekst ktory wychodzi</span>
+              </div>
+            </div>
 
+        </div>
+        <div class="write-area" contenteditable="true"></div>
+      </div>
+      <div class="right-menu">
+        <div class="friends">
+            <div class="right-title-div">
+              <span class="friends-name">Friends</span>
+            </div>
+            <div class="friend">
+              <img src="img/dog.png" class="friend-photo">
+              <span class="friend-description">
+                <span class="friend-name">Rafał Becla</span>
+              </span>
+            </div>
+            <div class="friend">
+                <img src="img/dog.png" class="friend-photo">
+                <span class="friend-description">
+                  <span class="friend-name">Karol Trzaska</span>
+                </span>
+              </div>
+            <div class="friend">
+                <img src="img/dog.png" class="friend-photo">
+                <span class="friend-description">
+                  <span class="friend-name">Krzysztof Odoj</span>
+                </span>
+            </div>
+            <div class="friend">
+                <img src="img/dog.png" class="friend-photo">
+                <span class="friend-description">
+                  <span class="friend-name">Krzysztof Odoj</span>
+                </span>
+            </div>
+        </div>
+        <div class="games">
+            <div class="right-title-div games-title-div">
+              <span class="games-name">Games</span>
+            </div>
+            <div class="game"><img src="img/ping-pong.png"></div>
+            <div class="game"><img src="img/video-game.png"></div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
   <script src="/__/firebase/5.7.0/firebase-app.js"></script>
   <script src="/__/firebase/5.7.0/firebase-auth.js"></script>
   <script src="/__/firebase/5.7.0/firebase-database.js"></script>
   <script src="/__/firebase/5.7.0/firebase-storage.js"></script>
   <script src="/__/firebase/5.7.0/firebase-messaging.js"></script>
   <script src="/__/firebase/init.js"></script>
-
   <script src="js/mainChatPage.js"></script>
+  <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+  <div>Icons made by <a href="https://www.flaticon.com/authors/dmitri13" title="dmitri13">dmitri13</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+<div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
 </body>
 </html>
