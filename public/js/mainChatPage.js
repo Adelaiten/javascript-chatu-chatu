@@ -7,6 +7,7 @@ function isUserSignedIn() {
 }
 
 function signOut() {
+    quitChatRoom();
     firebase.auth().signOut();
 }
 
