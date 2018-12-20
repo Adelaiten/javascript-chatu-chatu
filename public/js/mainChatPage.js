@@ -218,37 +218,18 @@ function initFirebaseAuth() {
 }
 
 
-
- function authStateObserver(user) { //tutaj  metoda
-     if(user) { 
-         addUserToDabase();
-         loadUserInfo();
-         loadChatRooms();
-         loadFriendsList();
-         loadMessages("testName1", 12);
-         registerListeners();
-         chatHighlightFunctions();
-     } else {
-         window.location = '/';
-     }
-     
-
-        // FIRST PROMISE
-        // let promise1 = Promise.resolve(loadChatRooms);
-        // promise1.then(addChatHighlightFunctions);
-
-        // SECOND PROMISE
-        // function promise1() {
-        //   loadChatRooms();
-        //   return Promise.resolve(undefined);
-        // }
-        // promise1().then(addChatHighlightFunctions());
-
-        //CALLBACK
-        }
-
- 
-
+function authStateObserver(user) { //tutaj  metoda
+    if(user) { 
+        addUserToDabase();
+        loadUserInfo();
+        loadChatRooms();
+        loadFriendsList();
+        registerListeners();
+        chatHighlightFunctions();
+    } else {
+        window.location = '/';
+    }
+}
 
 
 function loadUserInfo(){
@@ -271,7 +252,7 @@ function sendMessage(ev){
         return;
     }
     
-    let chatId = "testName1";
+    let chatId = nowHighlighted;
     let message = messageInputElement.value;
 //    message.replace('<br>', '\n');
     
