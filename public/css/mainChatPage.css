@@ -32,15 +32,24 @@ body {
     color: #ffffff;
 }
 
+.user {
+    display: flex;
+    flex-direction: row;
+}
+
 
 .user-photo {
+    background-image: url(/img/dog.png);
+    background-repeat: no-repeat;
+    height: 60px;
     width: 60px;
+    background-size: 60px;
     border-radius: 50%;
     margin-top: 6px;
     border: 2px solid #ffffff;
 }
 
-.user-name {
+#user-name {
     padding-left: 10px;
     vertical-align: 120%;
     font-weight: bold;
@@ -55,7 +64,7 @@ body {
     background-color: rgba(0,0,0,0);
     margin-right: 10px;
     padding-right: 10px;
-
+    cursor: pointer;
 }
 
 .sign-out-button img {
@@ -68,7 +77,7 @@ body {
     justify-content: space-between;
 }
 
-.chats {
+#chats {
     flex-grow: 3;
     max-width: 20%; 
     border-right: 1px solid #dddddd;    
