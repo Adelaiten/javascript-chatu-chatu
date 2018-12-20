@@ -252,7 +252,7 @@ function sendMessage(ev){
         return;
     }
     
-    let chatId = "testName1";
+    let chatId = nowHighlighted;
     let message = messageInputElement.value;
 //    message.replace('<br>', '\n');
     

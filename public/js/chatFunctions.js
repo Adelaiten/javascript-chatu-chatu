@@ -16,7 +16,7 @@ createPublicChatBtn.addEventListener("click", createPublicChat);
 
 
 let lastHighlighted;
-let nowHighlighted;
+var nowHighlighted;
 
 function highlightActiveChat() {
     console.log(lastHighlighted);
