@@ -78,11 +78,9 @@ function loadFriendsList() {
   
   userFriendsDatabase.on('value', function(snapshot){
     snapshot.forEach(function(childSnapshot){
-      var friendId = childSnapshot.val();
+      var friendId = childSnapshot.key;
 
-      console.log(friendId);
       var friendDatabase = firebase.database().ref('users/' + friendId);
-      console.log(friendDatabase);
 
       var friendDiv = document.createElement("div");
       friendDiv.setAttribute("id", friendId);

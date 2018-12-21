@@ -22,6 +22,33 @@ body {
     background-color: #5478c7;
 }
 
+.friends-search {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    display: none;
+    top: 10%;
+    right: 0%;
+    z-index: 4;
+    width: 18vw;
+
+}
+.user-found {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+}
+
+.add-friend-button {
+    
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background-color: rgba(0,0,0,0);
+}
+.add-friend-button img {
+    width: 30px;
+    height: 30px;
+}
 .header-title {
     text-transform: uppercase;
     font-family: "Montserrat", sans-serif;
@@ -100,7 +127,6 @@ body {
     flex-grow: 3;
     max-width: 20%; 
     border-right: 1px solid #dddddd;
-    overflow-y: scroll;
 }
 
 #createPublicChatBtn {
@@ -195,7 +221,6 @@ body {
     justify-content: space-between; 
 }
 #chat {
-    overflow-y: scroll;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -251,7 +276,7 @@ body {
     max-width: 100%;
     height: 20vh;
     max-height: 20vh;
-    overflow: scroll;
+    overflow: hidden;
     border-top: 1px solid #dddddd;
     align-self: flex-end;
 }
@@ -290,6 +315,8 @@ body {
 
 #chat {
     color: #000000;
+    max-height: 62vh;
+    overflow-y: scroll;
 }
 canvas {
     display: none;
@@ -298,3 +325,4 @@ canvas {
     bottom: 20%;
     z-index: 2;
 }
+
