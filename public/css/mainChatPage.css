@@ -3,7 +3,7 @@ body {
     padding: 0;
 
 }
-.wrapper {
+#wrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -28,6 +28,7 @@ body {
     font-weight: bolder;
     text-shadow: 1px 1px rgba(0,0,0,0.2);
     padding: 15px;
+    
     font-size: 1.6rem;
     color: #ffffff;
 }
@@ -47,6 +48,7 @@ body {
     background-size: 60px;
     border-radius: 50%;
     margin-top: 6px;
+    margin-left: 40px;
     border: 2px solid #ffffff;
 }
 
@@ -59,7 +61,9 @@ body {
     color: #ffffff;
     text-shadow: 1px 1px rgba(0,0,0,0.2);
 }
-
+.buttons {
+    padding: 15px;
+}
 .sign-out-button {
     padding: 0;
     border: 0;
@@ -71,6 +75,19 @@ body {
 
 .sign-out-button img {
     width: 30px;
+    height: 30px;
+}
+
+#menu {
+    padding: 0;
+    border: 0;
+    background-color: rgba(0,0,0,0);
+    cursor:pointer;
+    margin-right: 40px;
+}
+#menu img {
+    width: 30px;
+    height: 30px;
 }
 
 .content{

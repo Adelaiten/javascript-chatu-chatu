@@ -7,14 +7,19 @@
   <link rel="stylesheet" href="css/mainChatPage.css">
 </head>
 <body>
-  <div class="wrapper">
+  <div id="wrapper">
     <header class="header">
-      <span class="header-title">Chatu-Pingu</span>
+      
       <div class="user">
+        <span class="header-title">Chatu-Pingu</span>
         <div id="user-photo" class="user-photo"></div>
         <div id="user-name"></div>
       </div>
-      <button id="logout" type="button" class="sign-out-button"><img src="img/logout.svg"></button>
+      <div class="buttons"> 
+        <button id="menu" type="button"><img src="img/show-menu-button.svg"></button>
+        <button id="logout" type="button" class="sign-out-button"><img src="img/logout.svg"></button>
+      </div>
+     
     </header>
     <div class="content">
 
@@ -57,9 +62,8 @@
         </div>
       </div>
     </div>
-    
+    <canvas id="canvas"></canvas>
   </div>
-  <canvas id="canvas"></canvas>
   <script src="/__/firebase/5.7.0/firebase-app.js"></script>
   <script src="/__/firebase/5.7.0/firebase-auth.js"></script>
   <script src="/__/firebase/5.7.0/firebase-database.js"></script>
