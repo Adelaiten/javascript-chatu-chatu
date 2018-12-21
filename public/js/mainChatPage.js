@@ -76,44 +76,88 @@ function loadChatRooms() {
 
 
 function loadFriendsList() {
-  var userId = firebase.auth().currentUser.uid;
-  var userFriendsDatabase = firebase.database().ref('users/' + userId + "/friends");
-  var friendsList = document.getElementsByClassName("friends")[0];
+    let callback = function(snap) {
+        let data = snap.val();
+        let friendId = snap.key;
+        console.log(friendId);
+        displayFriend(friendId);
+    };
+
+    let userId = firebase.auth().currentUser.uid;
+    firebase.database().ref(`users/${userId}/friends`).on('child_added', callback);
+    firebase.database().ref(`users/${userId}/friends`).on('child_changed', callback);
+
+//   var friendsList = document.getElementsByClassName("friends")[0];
 
   
-//  userFriendsDatabase.on('value', function(snapshot){
-//    snapshot.forEach(function(childSnapshot){
-//      var friendId = childSnapshot.val();
-//
-//      console.log(friendId);
-//      var friendDatabase = firebase.database().ref('users/' + friendId);
-//      console.log(friendDatabase);
-//
-//      var friendDiv = document.createElement("div");
-//      friendDiv.setAttribute("id", friendId);
-//      var imageFriend = document.createElement("img");
-//      var friendDescriptionSpan = document.createElement("span");
-//      var friendNameSpan = document.createElement("span");
-//      friendDiv.classList.add("friend");
-//      imageFriend.setAttribute("src", "img/dog.png");
-//      
-//      imageFriend.classList.add("friend-photo");
-//      friendDescriptionSpan.classList.add("friend-description");
-//      friendNameSpan.classList.add("friend-name");
-//
-//      friendDatabase.once('value', function(friendSnapshot){
-//        friendNameSpan.textContent = friendSnapshot.val().name;
-//        friendDescriptionSpan.appendChild(friendNameSpan);
-//        friendDiv.appendChild(imageFriend);
-//        friendDiv.appendChild(friendDescriptionSpan);
-//
-//
-//        friendsList.appendChild(friendDiv);
-//
+//     userFriendsDatabase.on('value', function(snapshot){
+//         snapshot.forEach(function(childSnapshot){
+//             var friendId = childSnapshot.val();
+
+//             console.log(friendId);
+//             var friendDatabase = firebase.database().ref('users/' + friendId);
+//             console.log(friendDatabase);
+
+//             var friendDiv = document.createElement("div");
+//             friendDiv.setAttribute("id", friendId);
+//             var imageFriend = document.createElement("img");
+//             var friendDescriptionSpan = document.createElement("span");
+//             var friendNameSpan = document.createElement("span");
+//             friendDiv.classList.add("friend");
+//             imageFriend.setAttribute("src", "img/dog.png");
+            
+//             imageFriend.classList.add("friend-photo");
+//             friendDescriptionSpan.classList.add("friend-description");
+//             friendNameSpan.classList.add("friend-name");
+
+//             friendDatabase.once('value', function(friendSnapshot){
+//             friendNameSpan.textContent = friendSnapshot.val().name;
+//             friendDescriptionSpan.appendChild(friendNameSpan);
+//             friendDiv.appendChild(imageFriend);
+//             friendDiv.appendChild(friendDescriptionSpan);
+
+
+//             friendsList.appendChild(friendDiv);
+
 //      })
 //    })
-//
+
 //  });
+}
+
+function displayFriend(friendId){
+    let callback = function(snap) {
+        let friendData = snap.val();
+        let friendId = snap.key;
+        let name = friendData.name;
+        console.log(name);
+        addFriendDiv(name, friendId)
+    }    
+    firebase.database().ref(`users/${friendId}`).once('value').then(callback);
+}
+
+function addFriendDiv(name, friendId){
+            var friendsList = document.getElementsByClassName("friends")[0];
+            var friendDiv = document.createElement("div");
+            friendDiv.setAttribute("id", friendId);
+            var imageFriend = document.createElement("img");
+            var friendDescriptionSpan = document.createElement("span");
+            var friendNameSpan = document.createElement("span");
+            friendDiv.classList.add("friend");
+            imageFriend.setAttribute("src", "img/dog.png");
+            
+            imageFriend.classList.add("friend-photo");
+            friendDescriptionSpan.classList.add("friend-description");
+            friendNameSpan.classList.add("friend-name");
+
+        
+            friendNameSpan.textContent = name;
+            friendDescriptionSpan.appendChild(friendNameSpan);
+            friendDiv.appendChild(imageFriend);
+            friendDiv.appendChild(friendDescriptionSpan);
+
+
+            friendsList.appendChild(friendDiv);
 }
 
 
