@@ -38,7 +38,19 @@ document.getElementById("menu").addEventListener("click", function(){
                     usersDiv.appendChild(addFriendButton);
                     usersSearcher.appendChild(usersDiv);
 
-
+                    addFriendButton.addEventListener("click", function(){
+                        var currentUser = firebase.auth().currentUser;
+                        var currentUserId = currentUser.uid;
+                        var currentUserName = currentUser.name;
+                    
+                        var currentUserDatabase = firebase.database().ref('users/' + currentUserId + "/friends");
+                        var friendToAdd = {
+                            [userId] : user+currentUserName+"Priv"
+                        };
+                        console.log(friendToAdd);
+                        currentUserDatabase.update(friendToAdd);  
+                
+                    });
                     
                 })
             });
@@ -49,19 +61,6 @@ document.getElementById("menu").addEventListener("click", function(){
     }else {
         document.getElementById("friend-searcher").style.display="none";
         isMenuOpen = false;
-    }
-    var addFriendButton = document.getElementsByClassName("add-friend-button")[0];                 
-    addFriendButton.addEventListener("click", function(){
-        var currentUser = firebase.auth().currentUser;
-        var currentUserId = currentUser.uid;
-        var currentUserName = currentUser.name;
-    
-        var currentUserDatabase = firebase.database().ref('users/' + currentUserId + "/friends");
-        var friendToAdd = {
-            userId : user+currentUserName+"Priv"
-        };
-        console.log(friendToAdd);
-        currentUserDatabase.push(friendToAdd);  
+    }             
 
-    });
 });
