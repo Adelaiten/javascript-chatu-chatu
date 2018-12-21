@@ -265,6 +265,7 @@ function sendMessage(ev){
         const NO_CHAT_ROOM_ELEMENT = document.createElement('div');
         NO_CHAT_ROOM_ELEMENT.textContent = "Please select a chat room!";
         chatElement.appendChild(NO_CHAT_ROOM_ELEMENT);
+        messageInputElement.value = messageInputElement.value.slice(0, -1);
         return;
     }
     
