@@ -1,10 +1,31 @@
-const provider = new firebase.auth.FacebookAuthProvider();
-provider.useDeviceLanguage();
+var provider = new firebase.auth.FacebookAuthProvider();
 
-firebase.auth().signInWithPopup(provider).then(function(result) {
+function facebookSignin() {
+  firebase.auth().signOut();
+  firebase.auth().signInWithPopup(provider)
+   
+  .then(function(result) {
     const token = result.credential.accessToken;
     const user = result.user;
   }).catch(function(error) {
-    let errorCode = error.code;
-    let errorMessage = error.message;
-});
+    console.log(error.code);
+    console.log(error.message);
+  });
+}
+
+function authStateObserver() {
+  firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+          window.location = "/mainChatPage.html";
+      }
+  });
+}
+
+function initFirebaseAuth() {
+  firebase.auth().onAuthStateChanged(authStateObserver);
+}
+
+let facebookLoginBtn = document.getElementById("login-facebook");
+facebookLoginBtn.addEventListener("click", facebookSignin);
+
+initFirebaseAuth();
