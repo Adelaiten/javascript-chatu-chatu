@@ -6,54 +6,13 @@ document.getElementById("menu").addEventListener("click", function(){
         usersSearcher.style.display="block";
         if(!usersLoaded){
             var usersDatabase = firebase.database().ref('users');
-            usersDatabase.on('value', function(snapshot){
+            usersDatabase.once('value', function(snapshot){
                 snapshot.forEach(function(childSnapshot){
-                    var userId = childSnapshot.key;
-                    var user = childSnapshot.val().name;
-
-                    var email = childSnapshot.val().email;
-                    var usersDiv = document.createElement("div");
-                    usersDiv.setAttribute("id", userId);
-                    var imageUser = document.createElement("img");
-                    var userDescriptionSpan = document.createElement("span");
-                    var userNameSpan = document.createElement("span");
-                    var addFriendButton = document.createElement("button");
-                    var imageButton = document.createElement("img");
-                    usersDiv.classList.add("user-found");
-                    imageUser.setAttribute("src", "img/dog.png");
-                    
-                    addFriendButton.classList.add("add-friend-button");
-
-                    imageButton.classList.add("add-friend-button");
-                    imageButton.setAttribute("src", "img/plus.svg");
-                    addFriendButton.appendChild(imageButton);
-                    
-                    imageUser.classList.add("user-photo");
-                    userDescriptionSpan.classList.add("user-found-description");
-                    userNameSpan.classList.add("user-found-name");
-                    userNameSpan.textContent = user;
-                    userDescriptionSpan.appendChild(userNameSpan);
-                    usersDiv.appendChild(imageUser);
-                    usersDiv.appendChild(userDescriptionSpan);
-                    usersDiv.appendChild(addFriendButton);
-                    usersSearcher.appendChild(usersDiv);
-
-                    addFriendButton.addEventListener("click", function(){
-                        var currentUser = firebase.auth().currentUser;
-                        var currentUserId = currentUser.uid;
-                        var currentUserName = currentUser.name;
-                    
-                        var currentUserDatabase = firebase.database().ref('users/' + currentUserId + "/friends");
-                        var friendToAdd = {
-                            [userId] : user+currentUserName+"Priv"
-                        };
-                        console.log(friendToAdd);
-                        currentUserDatabase.update(friendToAdd);  
-                
-                    });
+                    createHTMLElement(childSnapshot, usersSearcher);
                     
                 })
             });
+
             usersLoaded = true;
         }
 
@@ -63,4 +22,54 @@ document.getElementById("menu").addEventListener("click", function(){
         isMenuOpen = false;
     }             
 
+
 });
+addFriend();
+function createHTMLElement(childSnapshot, usersSearcher){
+    var userId = childSnapshot.key;
+    var user = childSnapshot.val().name;
+
+    var email = childSnapshot.val().email;
+    var usersDiv = document.createElement("div");
+    usersDiv.setAttribute("id", userId);
+    var imageUser = document.createElement("img");
+    var userDescriptionSpan = document.createElement("span");
+    var userNameSpan = document.createElement("span");
+    var addFriendButton = document.createElement("button");
+    var imageButton = document.createElement("img");
+    usersDiv.classList.add("user-found");
+    imageUser.setAttribute("src", "img/dog.png");
+    
+    addFriendButton.classList.add("add-friend-button");
+
+    imageButton.classList.add("add-friend-button");
+    imageButton.setAttribute("src", "img/plus.svg");
+    addFriendButton.appendChild(imageButton);
+    
+    imageUser.classList.add("user-photo");
+    userDescriptionSpan.classList.add("user-found-description");
+    userNameSpan.classList.add("user-found-name");
+    userNameSpan.textContent = user;
+    userDescriptionSpan.appendChild(userNameSpan);
+    usersDiv.appendChild(imageUser);
+    usersDiv.appendChild(userDescriptionSpan);
+    usersDiv.appendChild(addFriendButton);
+    usersSearcher.appendChild(usersDiv);
+    addFriendButton.addEventListener("click", function(){
+        addFriend(userId);
+    });
+}
+
+function addFriend(userId){
+    var currentUser = firebase.auth().currentUser;
+    var currentUserId = currentUser.uid;
+    var currentUserName = currentUser.name;
+    var userId = userId;
+    var currentUserDatabase = firebase.database().ref('users/' + currentUserId + "/friends");
+    var friendToAdd = {
+        [userId] : "Priv"
+    };
+
+    currentUserDatabase.update(friendToAdd); 
+
+}

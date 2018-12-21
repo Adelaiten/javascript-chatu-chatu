@@ -212,10 +212,11 @@ function game(){
 setInterval(game, 1000/120);
 
 document.getElementById("ping-pong").addEventListener("click", function() {
-    
+
     document.getElementById("canvas").style.display="block";
     game();
     document.addEventListener("keydown", function(event){
+        
         var keyCode = event.keyCode;
         if(keyCode == 27) {
             document.getElementById("canvas").style.display="none";

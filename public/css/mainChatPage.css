@@ -318,7 +318,6 @@ body {
 }
 
 
-
 #chat {
     color: #000000;
     max-height: 62vh;
@@ -327,8 +326,9 @@ body {
 canvas {
     display: none;
     position: absolute;
-    top: 20%;
-    bottom: 20%;
+    top: 25%;
+    left: 25%;
     z-index: 2;
+   
 }
 
