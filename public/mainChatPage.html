@@ -7,18 +7,23 @@
   <link rel="stylesheet" href="css/mainChatPage.css">
 </head>
 <body>
-  <div class="wrapper">
+  <div id="wrapper">
     <header class="header">
-      <span class="header-title">Chatu-Pingu</span>
+      
       <div class="user">
+        <span class="header-title">Chatu-Pingu</span>
         <div id="user-photo" class="user-photo"></div>
         <div id="user-name"></div>
       </div>
-      <button id="logout" type="button" class="sign-out-button"><img src="img/logout.svg"></button>
+      <div class="buttons"> 
+        <button id="menu" type="button"><img src="img/show-menu-button.svg"></button>
+        <button id="logout" type="button" class="sign-out-button"><img src="img/logout.svg"></button>
+      </div>
+     <div class="friends-search" id="friend-searcher"></div>
     </header>
     <div class="content">
 
-      <div id="chats">
+      <div id="chats" class="chats">
         <div class="chats-title-div">
           <span class="chats-text-title">Chats</span>
           <button type="button" id = "createPublicChatBtn"><img src="img/plus.svg"></button>
@@ -29,7 +34,7 @@
         <div class="active-chat-title-div">
           <span class="active-chat-name" id="active-chat-name">Please select a chat</span>
         </div>
-        <div id="chat">
+        <div id="chat" class="chat">
 
         </div>
         <textarea resize="none" id="message-input" class="write-area" ></textarea>
@@ -57,9 +62,8 @@
         </div>
       </div>
     </div>
-    
+    <canvas id="canvas"></canvas>
   </div>
-  <canvas id="canvas"></canvas>
   <script src="/__/firebase/5.7.0/firebase-app.js"></script>
   <script src="/__/firebase/5.7.0/firebase-auth.js"></script>
   <script src="/__/firebase/5.7.0/firebase-database.js"></script>
@@ -67,7 +71,9 @@
   <script src="/__/firebase/5.7.0/firebase-messaging.js"></script>
   <script src="/__/firebase/init.js"></script>
   <script src="js/mainChatPage.js"></script>
+  <script src="js/searchFriendsButton.js"></script>
   <script src="js/chatFunctions.js"></script>
+  <script src="js/ping.js"></script>
   <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
   <div>Icons made by <a href="https://www.flaticon.com/authors/dmitri13" title="dmitri13">dmitri13</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
