@@ -166,11 +166,11 @@ body {
 }
 .group-photo, .friend-photo, .author-photo {
     border-radius: 50%;
-    width: 100px;
 }
 
 .friend-photo, .author-photo {
     width: 60px;
+    height: 60px;
 }
 .group-chat span {
     max-width: 100%;
