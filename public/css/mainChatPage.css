@@ -139,7 +139,13 @@ body {
     padding-left: 20px;
     padding-top: 5px;
     padding-bottom: 5px;
+    cursor: pointer;
 }
+
+.group-chat:hover, .friend:hover{
+    background-color: #c4daff;
+}
+
 .using-chat {
     background-color: rgba(221, 221, 221, 0.63);
 }
@@ -160,11 +166,11 @@ body {
 }
 .group-photo, .friend-photo, .author-photo {
     border-radius: 50%;
-    width: 100px;
 }
 
 .friend-photo, .author-photo {
     width: 60px;
+    height: 60px;
 }
 .group-chat span {
     max-width: 100%;

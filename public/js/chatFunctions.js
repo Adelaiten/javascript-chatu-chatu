@@ -1,13 +1,8 @@
 function createPublicChat() {
     let chatName = prompt("What's your new chat room name?");
-    const chatDatabase = firebase.database().ref(`/chats/`);
-
-    chatDatabase.push({
+    const chatDatabase = firebase.database().ref(`/chats/`).push({
           chatName: chatName,
-          isPrivate: false,
-          members: {
-              0: getUserName()
-          }
+          isPrivate: false
     });
 }
 
@@ -16,7 +11,7 @@ createPublicChatBtn.addEventListener("click", createPublicChat);
 
 
 let lastHighlighted;
-let nowHighlighted;
+var nowHighlighted;
 
 function highlightActiveChat() {
     console.log(lastHighlighted);
@@ -26,11 +21,15 @@ function highlightActiveChat() {
     elementToAdHighlight.classList.add("using-chat");
     switchChats(nowHighlighted, 12);
     lastHighlighted = nowHighlighted;
+    firebase.database().ref(`/chats/${nowHighlighted}/members/`).update({
+        [getProfileUID()] : 1
+    });
 }
 
 function removeHighlight(lastHighlighted) {
     let elementToRemoveHighlight = FindByAttributeValue("id", lastHighlighted, "div");
     elementToRemoveHighlight.classList.remove("using-chat");
+    quitChatRoom();
 }
 
 
@@ -46,14 +45,23 @@ function getIDIfChatExists(element, className) {
 }
 
 function chatHighlightFunctions() {
-
     let chats = document.getElementById('chats');
 
     chats.addEventListener('click', (event) => {
-        if(getIDIfChatExists(event.target, "group-chat")) {
-            highlightActiveChat();
-        }
+        swapChat(event.target);
     }, false);
+}
+
+function swapChat(target){
+    if(getIDIfChatExists(target, "group-chat")) {
+        highlightActiveChat();
+    }
+}
+
+function quitChatRoom(){
+    firebase.database().ref(`/chats/${lastHighlighted}/members/`).update({
+        [getProfileUID()] : null
+    });
 }
 
 function FindByAttributeValue(attribute, value, element_type)    {
@@ -67,6 +75,7 @@ function FindByAttributeValue(attribute, value, element_type)    {
 function switchChats(id, limit) {
     clearChatMessages();
     loadMessages(id, limit);
+    changeActiveChatNameOnWebpage(nowHighlighted);
 }
 
 function clearChatMessages() {
@@ -74,4 +83,10 @@ function clearChatMessages() {
     while (myNode.firstChild) {
         myNode.removeChild(myNode.firstChild);
     }
+}
+
+function changeActiveChatNameOnWebpage(nowHighlighted) {
+    let span = document.getElementById("active-chat-name");
+    let activeChatElement = FindByAttributeValue("id", nowHighlighted, "div");
+    span.textContent = activeChatElement.getAttribute("name");
 }

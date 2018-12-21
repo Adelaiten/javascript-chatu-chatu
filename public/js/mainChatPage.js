@@ -7,6 +7,7 @@ function isUserSignedIn() {
 }
 
 function signOut() {
+    quitChatRoom();
     firebase.auth().signOut();
 }
 
@@ -60,7 +61,11 @@ function loadChatRooms() {
     let callback = function(snap) {
         let data = snap.val();
         if (!data.isPrivate){
-            displayChatRoom(data.chatName, data.members.length, snap.key);
+            let memebersNumber = 0;
+            if (data.members){
+                memebersNumber = Object.keys(data.members).length;
+            }
+            displayChatRoom(data.chatName, memebersNumber, snap.key);
         }
     };
     
@@ -71,44 +76,88 @@ function loadChatRooms() {
 
 
 function loadFriendsList() {
-  var userId = firebase.auth().currentUser.uid;
-  var userFriendsDatabase = firebase.database().ref('users/' + userId + "/friends");
-  var friendsList = document.getElementsByClassName("friends")[0];
+    let callback = function(snap) {
+        let data = snap.val();
+        let friendId = snap.key;
+        console.log(friendId);
+        displayFriend(friendId);
+    };
+
+    let userId = firebase.auth().currentUser.uid;
+    firebase.database().ref(`users/${userId}/friends`).on('child_added', callback);
+    firebase.database().ref(`users/${userId}/friends`).on('child_changed', callback);
+
+//   var friendsList = document.getElementsByClassName("friends")[0];
 
   
-  userFriendsDatabase.on('value', function(snapshot){
-    snapshot.forEach(function(childSnapshot){
-      var friendId = childSnapshot.val();
+//     userFriendsDatabase.on('value', function(snapshot){
+//         snapshot.forEach(function(childSnapshot){
+//             var friendId = childSnapshot.val();
 
-      console.log(friendId);
-      var friendDatabase = firebase.database().ref('users/' + friendId);
-      console.log(friendDatabase);
+//             console.log(friendId);
+//             var friendDatabase = firebase.database().ref('users/' + friendId);
+//             console.log(friendDatabase);
 
-      var friendDiv = document.createElement("div");
-      friendDiv.setAttribute("id", friendId);
-      var imageFriend = document.createElement("img");
-      var friendDescriptionSpan = document.createElement("span");
-      var friendNameSpan = document.createElement("span");
-      friendDiv.classList.add("friend");
-      imageFriend.setAttribute("src", "img/dog.png");
-      
-      imageFriend.classList.add("friend-photo");
-      friendDescriptionSpan.classList.add("friend-description");
-      friendNameSpan.classList.add("friend-name");
+//             var friendDiv = document.createElement("div");
+//             friendDiv.setAttribute("id", friendId);
+//             var imageFriend = document.createElement("img");
+//             var friendDescriptionSpan = document.createElement("span");
+//             var friendNameSpan = document.createElement("span");
+//             friendDiv.classList.add("friend");
+//             imageFriend.setAttribute("src", "img/dog.png");
+            
+//             imageFriend.classList.add("friend-photo");
+//             friendDescriptionSpan.classList.add("friend-description");
+//             friendNameSpan.classList.add("friend-name");
 
-      friendDatabase.once('value', function(friendSnapshot){
-        friendNameSpan.textContent = friendSnapshot.val().name;
-        friendDescriptionSpan.appendChild(friendNameSpan);
-        friendDiv.appendChild(imageFriend);
-        friendDiv.appendChild(friendDescriptionSpan);
+//             friendDatabase.once('value', function(friendSnapshot){
+//             friendNameSpan.textContent = friendSnapshot.val().name;
+//             friendDescriptionSpan.appendChild(friendNameSpan);
+//             friendDiv.appendChild(imageFriend);
+//             friendDiv.appendChild(friendDescriptionSpan);
 
 
-        friendsList.appendChild(friendDiv);
+//             friendsList.appendChild(friendDiv);
 
-      })
-    })
+//      })
+//    })
 
-  });
+//  });
+}
+
+function displayFriend(friendId){
+    let callback = function(snap) {
+        let friendData = snap.val();
+        let friendId = snap.key;
+        let name = friendData.name;
+        console.log(name);
+        addFriendDiv(name, friendId)
+    }    
+    firebase.database().ref(`users/${friendId}`).once('value').then(callback);
+}
+
+function addFriendDiv(name, friendId){
+            var friendsList = document.getElementsByClassName("friends")[0];
+            var friendDiv = document.createElement("div");
+            friendDiv.setAttribute("id", friendId);
+            var imageFriend = document.createElement("img");
+            var friendDescriptionSpan = document.createElement("span");
+            var friendNameSpan = document.createElement("span");
+            friendDiv.classList.add("friend");
+            imageFriend.setAttribute("src", "img/dog.png");
+            
+            imageFriend.classList.add("friend-photo");
+            friendDescriptionSpan.classList.add("friend-description");
+            friendNameSpan.classList.add("friend-name");
+
+        
+            friendNameSpan.textContent = name;
+            friendDescriptionSpan.appendChild(friendNameSpan);
+            friendDiv.appendChild(imageFriend);
+            friendDiv.appendChild(friendDescriptionSpan);
+
+
+            friendsList.appendChild(friendDiv);
 }
 
 
@@ -133,13 +182,17 @@ let CHAT_LI_TEMPLATE =
 
 
 function displayChatRoom(name, usersNumber, id){
-    let container = document.createElement('div');
-    container.innerHTML = CHAT_LI_TEMPLATE;
-    let div = container.firstChild;
-    div.setAttribute("id", id);
-    chatList.appendChild(div);
+    let div = document.getElementById(id);
+    if (!div){
+        let container = document.createElement('div');
+        container.innerHTML = CHAT_LI_TEMPLATE;
+        div = container.firstChild;
+        div.setAttribute("id", id);
+        chatList.appendChild(div);
+    }
     let chatName = div.querySelector('.group-name');
     chatName.textContent = name;
+    div.setAttribute("name", name);
     div.querySelector('.last-post').textContent = `members: ${usersNumber}`;
 }
 
@@ -252,7 +305,14 @@ function sendMessage(ev){
         return;
     }
     
-    let chatId = "testName1";
+    if (!nowHighlighted){
+        const NO_CHAT_ROOM_ELEMENT = document.createElement('div');
+        NO_CHAT_ROOM_ELEMENT.textContent = "Please select a chat room!";
+        chatElement.appendChild(NO_CHAT_ROOM_ELEMENT);
+        return;
+    }
+    
+    let chatId = nowHighlighted;
     let message = messageInputElement.value;
 //    message.replace('<br>', '\n');
     
