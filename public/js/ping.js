@@ -212,6 +212,7 @@ function game(){
 setInterval(game, 1000/120);
 
 document.getElementById("ping-pong").addEventListener("click", function() {
+    
     document.getElementById("canvas").style.display="block";
     game();
     document.addEventListener("keydown", function(event){
