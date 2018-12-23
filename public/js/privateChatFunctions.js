@@ -37,12 +37,3 @@ function swapPrivateChat(target){
         highlightActiveChat(isPrivate);
     }
 }
-
-// function getPrivateChatIdByFriendId(friendId) {
-//     let callback = function(snap) {
-//         let ourChatId = snap.val();
-//         return ourChatId
-//     }
-//     let myId = getProfileUID();
-//     firebase.database().ref(`users/${myId}/friends/${friendId}`).once('value').then(callback);
-// }

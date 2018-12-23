@@ -103,6 +103,7 @@ function addFriendDiv(name, privateChatID){
     var friendsList = document.getElementsByClassName("friends")[0];
     var friendDiv = document.createElement("div");
     friendDiv.setAttribute("id", privateChatID);
+    friendDiv.setAttribute("name", name);
     var imageFriend = document.createElement("img");
     var friendDescriptionSpan = document.createElement("span");
     var friendNameSpan = document.createElement("span");
