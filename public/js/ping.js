@@ -198,31 +198,31 @@ function speedUp(){
     }
 }
 
-window.addEventListener("mousemove", playerPosition);
+// window.addEventListener("mousemove", playerPosition);
 
-function game(){
-    table();
-    ball();
-    player();
-    ai();
-    aiPosition();
-}
+// function game(){
+//     table();
+//     ball();
+//     player();
+//     ai();
+//     aiPosition();
+// }
 
 
-setInterval(game, 1000/120);
+// setInterval(game, 1000/120);
 
-document.getElementById("ping-pong").addEventListener("click", function() {
+// document.getElementById("ping-pong").addEventListener("click", function() {
     
-    document.getElementById("canvas").style.display="block";
-    game();
-    document.addEventListener("keydown", function(event){
-        var keyCode = event.keyCode;
-        if(keyCode == 27) {
-            document.getElementById("canvas").style.display="none";
-        }
+//     document.getElementById("canvas").style.display="block";
+//     game();
+//     document.addEventListener("keydown", function(event){
+//         var keyCode = event.keyCode;
+//         if(keyCode == 27) {
+//             document.getElementById("canvas").style.display="none";
+//         }
 
-    })
-});
+//     })
+// });
 
 
 

@@ -13,12 +13,12 @@ createPublicChatBtn.addEventListener("click", createPublicChat);
 let lastHighlighted;
 var nowHighlighted;
 
-function highlightActiveChat() {
+function highlightActiveChat(isPrivate) {
     console.log(lastHighlighted);
     console.log(nowHighlighted);
     removeHighlight(lastHighlighted);
-    let elementToAdHighlight = FindByAttributeValue("id", nowHighlighted, "div");
-    elementToAdHighlight.classList.add("using-chat");
+    let elementToAddHighlight = FindByAttributeValue("id", nowHighlighted, "div");
+    elementToAddHighlight.classList.add("using-chat");
     switchChats(nowHighlighted, 12);
     lastHighlighted = nowHighlighted;
     firebase.database().ref(`/chats/${nowHighlighted}/members/`).update({
