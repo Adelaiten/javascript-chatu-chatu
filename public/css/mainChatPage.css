@@ -3,7 +3,7 @@ body {
     padding: 0;
 
 }
-.wrapper {
+#wrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -22,12 +22,40 @@ body {
     background-color: #5478c7;
 }
 
+.friends-search {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    display: none;
+    top: 10%;
+    right: 0%;
+    z-index: 4;
+    width: 18vw;
+
+}
+.user-found {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+}
+
+.add-friend-button {
+    
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background-color: rgba(0,0,0,0);
+}
+.add-friend-button img {
+    width: 30px;
+    height: 30px;
+}
 .header-title {
     text-transform: uppercase;
     font-family: "Montserrat", sans-serif;
     font-weight: bolder;
     text-shadow: 1px 1px rgba(0,0,0,0.2);
     padding: 15px;
+    
     font-size: 1.6rem;
     color: #ffffff;
 }
@@ -47,6 +75,7 @@ body {
     background-size: 60px;
     border-radius: 50%;
     margin-top: 6px;
+    margin-left: 40px;
     border: 2px solid #ffffff;
 }
 
@@ -59,7 +88,9 @@ body {
     color: #ffffff;
     text-shadow: 1px 1px rgba(0,0,0,0.2);
 }
-
+.buttons {
+    padding: 15px;
+}
 .sign-out-button {
     padding: 0;
     border: 0;
@@ -71,6 +102,19 @@ body {
 
 .sign-out-button img {
     width: 30px;
+    height: 30px;
+}
+
+#menu {
+    padding: 0;
+    border: 0;
+    background-color: rgba(0,0,0,0);
+    cursor:pointer;
+    margin-right: 40px;
+}
+#menu img {
+    width: 30px;
+    height: 30px;
 }
 
 .content{
@@ -83,7 +127,6 @@ body {
     flex-grow: 3;
     max-width: 20%; 
     border-right: 1px solid #dddddd;
-    overflow-y: scroll;
 }
 
 #createPublicChatBtn {
@@ -184,7 +227,6 @@ body {
     justify-content: space-between; 
 }
 #chat {
-    overflow-y: scroll;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -240,7 +282,7 @@ body {
     max-width: 100%;
     height: 20vh;
     max-height: 20vh;
-    overflow: scroll;
+    overflow: hidden;
     border-top: 1px solid #dddddd;
     align-self: flex-end;
 }
@@ -279,6 +321,8 @@ body {
 
 #chat {
     color: #000000;
+    max-height: 62vh;
+    overflow-y: scroll;
 }
 canvas {
     display: none;
@@ -287,3 +331,4 @@ canvas {
     bottom: 20%;
     z-index: 2;
 }
+
